@@ -60,7 +60,11 @@ h4 {
 header .container {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  border-bottom-style: solid !important;
+  border-bottom-color: #000;
+  border-bottom: 1px;
 }
 
 header a {
@@ -95,7 +99,6 @@ header .navbar-light {
 footer {
   width: 100%;
   margin-top: auto;
-
   height: 2.5rem;
   border-top-style: solid !important;
   border-top-color: #000;

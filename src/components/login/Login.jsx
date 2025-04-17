@@ -1,19 +1,66 @@
+import { useState } from "react";
+
 function Login() {
+  const [data, setData] = useState({
+    user_email: "john.doe@example.com",
+    user_pass: "12345",
+    entity: "test",
+  });
+
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    console.log("submit", data);
+    setMessage("invalid login");
+  };
+
   return (
-    <div>
-      <h2>Login</h2>
-      <form>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" required />
+    <main>
+      <div className="container">
+        <div className="login">
+          <h3>Login</h3>
+          <label>User</label>
+          <input
+            type="text"
+            className="form-control"
+            name="user_email"
+            value={data.user_email}
+            onChange={handleChange}
+          />
+          <label>Password</label>
+          <input
+            type="text"
+            className="form-control"
+            name="user_pass"
+            value={data.user_pass}
+            onChange={handleChange}
+          />
+          <label>Entity</label>
+          <input
+            type="text"
+            className="form-control"
+            name="entity"
+            value={data.entity}
+            onChange={handleChange}
+          />
+          <button
+            className="btn btn-primary"
+            type="submit"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+          <div className="text-error">{message}</div>
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" required />
-        </div>
-        <button type="submit">Login</button>
-    </form>
-  </div>
+      </div>
+    </main>
   );
 }
 
