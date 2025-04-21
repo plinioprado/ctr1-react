@@ -3,7 +3,7 @@ function TabList() {
     <main>
       <div className="container">
         <div>
-          <h3>Setting</h3>
+          <h3>Settings</h3>
         </div>
       </div>
     </main>

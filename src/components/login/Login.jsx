@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [data, setData] = useState({
     user_email: "john.doe@example.com",
     user_pass: "12345",
@@ -17,8 +20,7 @@ function Login() {
   };
 
   const handleSubmit = async () => {
-    console.log("submit", data);
-    setMessage("invalid login");
+    navigate("/");
   };
 
   return (
