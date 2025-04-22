@@ -1,18 +1,28 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useContext } from "react";
+import { Routes, Route } from "react-router-dom";
+import { SessionContext } from "./SessionContext";
+
 import Login from "./components/login/Login";
 import Home from "./components/home/Home";
-import TabList from "./components/tab/TabList";
+import Tabs from "./components/tab/Tabs";
+import Tab from "./components/tab/Tab";
 
 function AppRoutes() {
+  const { session } = useContext(SessionContext);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/setting" element={<TabList />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      {session ? (
+        <>
+          <Route path="/home" element={<Home />} />
+          <Route path="/tab" element={<Tabs />} />
+          <Route path="/tab/:id" element={<Tab />} />
+          <Route path="/" element={<Login />} />
+        </>
+      ) : (
+        <Route path="*" element={<Login />} />
+      )}
+    </Routes>
   );
 }
 export default AppRoutes;
