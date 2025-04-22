@@ -29,7 +29,7 @@ function Login() {
   const handleSubmit = async () => {
     try {
       setSession({ user: { name: "John Doe" }, entity: { name: "Test Ltd." } });
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       setMessage(`Login failed ${error.message}`);
     }

@@ -15,7 +15,7 @@ function Header() {
 
   return (
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             <img src={ctr_logo} alt="Logo" className="header_logo" />
@@ -40,7 +40,7 @@ function Header() {
                       class="nav-link active"
                       aria-current="page"
                       href="#"
-                      to="/"
+                      to="/home"
                       onClick={handleMenu}
                     >
                       Home
@@ -65,7 +65,17 @@ function Header() {
                         <a
                           class="dropdown-item"
                           href="#"
-                          to="/setting"
+                          to="/tab"
+                          onClick={handleMenu}
+                        >
+                          Users
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          to="/tab"
                           onClick={handleMenu}
                         >
                           Settings
@@ -78,7 +88,7 @@ function Header() {
                       class="nav-link active"
                       aria-current="page"
                       href="#"
-                      to="/login"
+                      to="/"
                       onClick={handleMenu}
                     >
                       Logout
