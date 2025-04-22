@@ -6,7 +6,6 @@ function Tab() {
   const location = useLocation(null);
   const navigate = useNavigate();
   const { session, setSession } = useContext(SessionContext);
-  console.log(session);
 
   const [data, setData] = useState({});
 

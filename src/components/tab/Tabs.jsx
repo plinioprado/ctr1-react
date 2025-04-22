@@ -1,61 +1,92 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
+import { get } from "../../data/request";
 
 function TabList() {
+  const params = useParams();
   const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const [format, setFormat] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const url = `${params.table}`;
+      const newData = await get(url);
+      await setData(newData.data);
+      await setFormat(newData.format);
+    }
+    fetchData();
+  }, [location.key, params.table]);
 
   const goto = (e, val) => {
-    navigate(`/tab/${val}`);
+    navigate(`/${params.table}/${val}`);
     e.preventDefault();
   };
 
+  function TableHead() {
+    return (
+      <thead>
+        <tr>
+          {format &&
+            format.columns.map((col, index) => (
+              <th key={index} scope="col">
+                {col.label}
+              </th>
+            ))}
+        </tr>
+      </thead>
+    );
+  }
+
+  function TableRow(row_item, row_index) {
+    return (
+      <tr index={row_index}>
+        {format &&
+          format.columns.map((col, col_index) => (
+            <td key={col_index} scope="row">
+              {col.primary ? (
+                <a href="#" onClick={(e) => goto(e, "x")}>
+                  {data[row_item.row_index][col.name]}
+                </a>
+              ) : (
+                data[row_item.row_index][col.name]
+              )}
+            </td>
+          ))}
+      </tr>
+    );
+  }
+
   return (
     <main>
-      <div className="container">
-        <h3>Settings</h3>
-        <div className="data-table-header">
-          <button
-            type="button"
-            class="btn btn-primary"
-            onClick={(e) => goto(e, "new")}
-          >
-            Create
-          </button>
+      {!data || !format ? (
+        <div className="container">
+          <p>Loading</p>
         </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Key</th>
-              <th scope="col">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">
-                <a href="#" onClick={(e) => goto(e, "3")}>
-                  1
-                </a>
-              </th>
-              <td>Mark</td>
-            </tr>
-            <tr>
-              <th scope="row">
-                <a href="#" onClick={(e) => goto(e, "3")}>
-                  2
-                </a>
-              </th>
-              <td>Jacob</td>
-            </tr>
-            <tr>
-              <th scope="row">
-                <a href="#" onClick={(e) => goto(e, "3")}>
-                  3
-                </a>
-              </th>
-              <td>Larry</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      ) : (
+        <div className="container">
+          <h3>{format.header}</h3>
+          <div className="data-table-header">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={(e) => goto(e, "new")}
+            >
+              Create
+            </button>
+          </div>
+          <table className="table">
+            <TableHead />
+            <tbody>
+              {data &&
+                data.map((item, index) => (
+                  <TableRow key={index} row_item={item} row_index={index} />
+                ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </main>
   );
 }
