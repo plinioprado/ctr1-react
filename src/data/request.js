@@ -1,0 +1,160 @@
+export async function get(url) {
+  let data = null;
+  let format = null;
+  if (url === "users") {
+    data = get_users_data();
+    format = get_users_format();
+  } else if (url.startsWith("users/")) {
+    const id = url.split("/")[1];
+    data = get_user_data(id);
+    format = get_user_format();
+  } else if (url === "settings") {
+    data = get_settings_data();
+    format = get_settings_format();
+  } else if (url.startsWith("settings/")) {
+    const id = url.split("/")[1];
+    data = get_setting_data(id);
+    format = get_setting_format();
+  } else {
+    throw new Error("Invalid URL");
+  }
+
+  return {
+    status: 200,
+    data: data,
+    format: format,
+    message: "ok",
+  };
+}
+
+function get_settings_data() {
+  return [
+    {
+      key: "entity_id",
+      value: "test",
+    },
+    {
+      key: "entity_name",
+      value: "Example Test Ltd.",
+    },
+  ];
+}
+
+function get_settings_format() {
+  return {
+    header: "Settings",
+    columns: [
+      {
+        name: "key",
+        label: "Key",
+        primary: true,
+      },
+      {
+        name: "value",
+        label: "Value",
+      },
+    ],
+  };
+}
+
+function get_setting_data(id) {
+  const list = get_settings_data();
+  const item = list.find((item) => item.key === id);
+  if (!item) {
+    throw new Error("Item not found");
+  }
+  return item;
+}
+
+function get_setting_format() {
+  return {
+    header: "Setting",
+    fields: [
+      {
+        name: "key",
+        label: "Key",
+        type: "text",
+        size: 6,
+        primary: true,
+      },
+      {
+        name: "value",
+        label: "Value",
+        type: "text",
+        size: 6,
+      },
+    ],
+  };
+}
+
+function get_users_data() {
+  return [
+    {
+      email: "john.doe@example.com",
+      name: "John Doe",
+      pass: "12345",
+    },
+    {
+      email: "jane.doe@example.com",
+      name: "Jane Doe",
+      pass: "12345",
+    },
+  ];
+}
+
+function get_users_format() {
+  return {
+    header: "Users",
+    columns: [
+      {
+        name: "email",
+        label: "Email",
+        primary: true,
+      },
+      {
+        name: "name",
+        label: "Name",
+      },
+      {
+        name: "pass",
+        label: "Password",
+      },
+    ],
+  };
+}
+
+function get_user_data(id) {
+  const list = get_users_data();
+  const item = list.find((item) => item.email === id);
+  if (!item) {
+    throw new Error("Item not found");
+  }
+  return item;
+}
+
+function get_user_format() {
+  return {
+    header: "User",
+    fields: [
+      {
+        name: "email",
+        label: "Email",
+        type: "text",
+        primary: true,
+        size: 6,
+      },
+      {
+        name: "name",
+        label: "Name",
+        type: "text",
+        size: 6,
+      },
+      {
+        name: "pass",
+        label: "Pass",
+        type: "text",
+        size: 6,
+      },
+    ],
+  };
+}

@@ -1,6 +1,16 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { SessionContext } from "../../SessionContext";
 
 function Login() {
+  const location = useLocation(null);
+  const navigate = useNavigate();
+  const { setSession } = useContext(SessionContext);
+
+  useEffect(() => {
+    setSession(null);
+  }, [location.key]);
+
   const [data, setData] = useState({
     user_email: "john.doe@example.com",
     user_pass: "12345",
@@ -17,8 +27,12 @@ function Login() {
   };
 
   const handleSubmit = async () => {
-    console.log("submit", data);
-    setMessage("invalid login");
+    try {
+      setSession({ user: { name: "John Doe" }, entity: { name: "Test Ltd." } });
+      navigate("/home");
+    } catch (error) {
+      setMessage(`Login failed ${error.message}`);
+    }
   };
 
   return (
