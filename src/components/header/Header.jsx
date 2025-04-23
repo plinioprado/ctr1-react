@@ -15,15 +15,15 @@ function Header() {
 
   return (
     <header>
-      <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
+      <nav className="navbar navbar-expand-md navbar-light bg-light">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">
             <img src={ctr_logo} alt="Logo" className="header_logo" />
           </a>
           {session && (
             <>
               <button
-                class="navbar-toggler"
+                className="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarNavDropdown"
@@ -31,13 +31,13 @@ function Header() {
                 aria-expanded="false"
                 aria-label="Toggle navigation"
               >
-                <span class="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
               </button>
-              <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
+              <div className="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul className="navbar-nav">
+                  <li className="nav-item">
                     <a
-                      class="nav-link active"
+                      className="nav-link active"
                       aria-current="page"
                       href="#"
                       to="/home"
@@ -46,9 +46,9 @@ function Header() {
                       Home
                     </a>
                   </li>
-                  <li class="nav-item dropdown">
+                  <li className="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle"
+                      className="nav-link dropdown-toggle"
                       href="#"
                       id="navbarDropdownMenuLink"
                       role="button"
@@ -58,14 +58,14 @@ function Header() {
                       Admin
                     </a>
                     <ul
-                      class="dropdown-menu"
+                      className="dropdown-menu"
                       aria-labelledby="navbarDropdownMenuLink"
                     >
                       <li>
                         <a
-                          class="dropdown-item"
+                          className="dropdown-item"
                           href="#"
-                          to="/tab"
+                          to="/users"
                           onClick={handleMenu}
                         >
                           Users
@@ -73,9 +73,9 @@ function Header() {
                       </li>
                       <li>
                         <a
-                          class="dropdown-item"
+                          className="dropdown-item"
                           href="#"
-                          to="/tab"
+                          to="/settings"
                           onClick={handleMenu}
                         >
                           Settings
@@ -83,9 +83,9 @@ function Header() {
                       </li>
                     </ul>
                   </li>
-                  <li class="nav-item ms-auto">
+                  <li className="nav-item ms-auto">
                     <a
-                      class="nav-link active"
+                      className="nav-link active"
                       aria-current="page"
                       href="#"
                       to="/"

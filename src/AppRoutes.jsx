@@ -15,8 +15,8 @@ function AppRoutes() {
       {session ? (
         <>
           <Route path="/home" element={<Home />} />
-          <Route path="/tab" element={<Tabs />} />
-          <Route path="/tab/:id" element={<Tab />} />
+          <Route path="/:table" element={<Tabs />} />
+          <Route path="/:table/:id" element={<Tab />} />
           <Route path="/" element={<Login />} />
         </>
       ) : (
