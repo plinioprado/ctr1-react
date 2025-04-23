@@ -2,6 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { SessionContext } from "../../SessionContext";
 
+import FieldText from "../fields/FieldText";
+import FielInteger from "../fields/FieldInteger";
+
 import { get } from "../../data/request";
 
 function Tab() {
@@ -33,7 +36,7 @@ function Tab() {
     });
   };
 
-  const handleSubmit = async () => {
+  const onSubmit = async () => {
     try {
       setSession({ ...session, data: data });
       navigate(`/${params.table}`);
@@ -42,7 +45,7 @@ function Tab() {
     }
   };
 
-  const handleDelete = async () => {
+  const onDelete = async () => {
     try {
       navigate(`/${params.table}`);
     } catch (error) {
@@ -50,25 +53,9 @@ function Tab() {
     }
   };
 
-  function TabField(format_field) {
-    console.log(format_field.field);
-    return (
-      <div
-        className={`col-sm-${format_field.field.size}`}
-        key={format_field.field.name}
-      >
-        <label>{format_field.field.label}</label>
-        <input
-          type={format_field.field.type}
-          className="form-control"
-          name={format_field.field.name}
-          value={data[format_field.field.name]}
-          onChange={handleChange}
-          disabled={format_field.field.primary}
-        />
-      </div>
-    );
-  }
+  const onReturn = async () => {
+    navigate(`/${params.table}`);
+  };
 
   return (
     <main>
@@ -79,23 +66,46 @@ function Tab() {
       ) : (
         <div className="container">
           <h3>{format.header}</h3>
+          <div className="col data-form-header">
+            <button
+              className="btn btn-primary"
+              type="submit"
+              onClick={onReturn}
+            >
+              Return
+            </button>
+          </div>
           <div className="row">
-            {format.fields.map((field) => (
-              <TabField field={field} />
-            ))}
+            {format.fields.map((format_field) =>
+              format_field.type === "integer" ? (
+                <FielInteger
+                  data_field={data[format_field.name]}
+                  format_field={format_field}
+                  handleChange={handleChange}
+                  key={format_field.name}
+                />
+              ) : (
+                <FieldText
+                  data_field={data[format_field.name]}
+                  format_field={format_field}
+                  handleChange={handleChange}
+                  key={format_field.name}
+                />
+              ),
+            )}
           </div>
           <div className="data-form-footer">
             <button
               className="btn btn-primary"
               type="button"
-              onClick={handleDelete}
+              onClick={onDelete}
             >
               Delete
             </button>
             <button
               className="btn btn-primary"
               type="submit"
-              onClick={handleSubmit}
+              onClick={onSubmit}
             >
               Submit
             </button>
