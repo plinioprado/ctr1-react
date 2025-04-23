@@ -1,0 +1,17 @@
+function FieldText({ data_field, format_field, handleChange }) {
+  return (
+    <div className={`col-sm-${format_field.size}`} key={format_field.name}>
+      <label>{format_field.label}</label>
+      <input
+        type={format_field.type}
+        className="form-control"
+        name={format_field.name}
+        value={data_field}
+        onChange={handleChange}
+        disabled={format_field.primary}
+      />
+    </div>
+  );
+}
+
+export default FieldText;
