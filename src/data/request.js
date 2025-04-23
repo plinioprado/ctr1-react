@@ -90,14 +90,18 @@ function get_setting_format() {
 function get_users_data() {
   return [
     {
+      id: 1,
       email: "john.doe@example.com",
       name: "John Doe",
       pass: "12345",
+      birthday: "1990-01-31",
     },
     {
+      id: 2,
       email: "jane.doe@example.com",
       name: "Jane Doe",
       pass: "12345",
+      birthday: "1991-02-30",
     },
   ];
 }
@@ -107,9 +111,13 @@ function get_users_format() {
     header: "Users",
     columns: [
       {
+        name: "id",
+        label: "Id",
+        primary: true,
+      },
+      {
         name: "email",
         label: "Email",
-        primary: true,
       },
       {
         name: "name",
@@ -125,7 +133,7 @@ function get_users_format() {
 
 function get_user_data(id) {
   const list = get_users_data();
-  const item = list.find((item) => item.email === id);
+  const item = list.find((item) => item.id.toString() === id.toString());
   if (!item) {
     throw new Error("Item not found");
   }
@@ -137,23 +145,36 @@ function get_user_format() {
     header: "User",
     fields: [
       {
-        name: "email",
-        label: "Email",
-        type: "text",
+        name: "id",
+        label: "Id",
+        type: "integer",
         primary: true,
-        size: 6,
+        size: 2,
       },
       {
         name: "name",
         label: "Name",
         type: "text",
+        size: 10,
+      },
+      {
+        name: "email",
+        label: "Email",
+        type: "text",
         size: 6,
       },
+
       {
         name: "pass",
         label: "Pass",
         type: "text",
         size: 6,
+      },
+      {
+        name: "birthday",
+        label: "Birthday",
+        type: "date",
+        size: 3,
       },
     ],
   };
