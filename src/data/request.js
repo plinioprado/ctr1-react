@@ -4,9 +4,17 @@ export async function get(url) {
   if (url === "users") {
     data = get_users_data();
     format = get_users_format();
+  } else if (url.startsWith("users/")) {
+    const id = url.split("/")[1];
+    data = get_user_data(id);
+    format = get_user_format();
   } else if (url === "settings") {
     data = get_settings_data();
     format = get_settings_format();
+  } else if (url.startsWith("settings/")) {
+    const id = url.split("/")[1];
+    data = get_setting_data(id);
+    format = get_setting_format();
   } else {
     throw new Error("Invalid URL");
   }
@@ -23,11 +31,11 @@ function get_settings_data() {
   return [
     {
       key: "entity_id",
-      val: "test",
+      value: "test",
     },
     {
       key: "entity_name",
-      val: "Example Test Ltd.",
+      value: "Example Test Ltd.",
     },
   ];
 }
@@ -42,8 +50,38 @@ function get_settings_format() {
         primary: true,
       },
       {
-        name: "val",
+        name: "value",
         label: "Value",
+      },
+    ],
+  };
+}
+
+function get_setting_data(id) {
+  const list = get_settings_data();
+  const item = list.find((item) => item.key === id);
+  if (!item) {
+    throw new Error("Item not found");
+  }
+  return item;
+}
+
+function get_setting_format() {
+  return {
+    header: "Setting",
+    fields: [
+      {
+        name: "key",
+        label: "Key",
+        type: "text",
+        size: 6,
+        primary: true,
+      },
+      {
+        name: "value",
+        label: "Value",
+        type: "text",
+        size: 6,
       },
     ],
   };
@@ -80,6 +118,42 @@ function get_users_format() {
       {
         name: "pass",
         label: "Password",
+      },
+    ],
+  };
+}
+
+function get_user_data(id) {
+  const list = get_users_data();
+  const item = list.find((item) => item.email === id);
+  if (!item) {
+    throw new Error("Item not found");
+  }
+  return item;
+}
+
+function get_user_format() {
+  return {
+    header: "User",
+    fields: [
+      {
+        name: "email",
+        label: "Email",
+        type: "text",
+        primary: true,
+        size: 6,
+      },
+      {
+        name: "name",
+        label: "Name",
+        type: "text",
+        size: 6,
+      },
+      {
+        name: "pass",
+        label: "Pass",
+        type: "text",
+        size: 6,
       },
     ],
   };

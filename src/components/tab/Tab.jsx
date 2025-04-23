@@ -1,20 +1,28 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { SessionContext } from "../../SessionContext";
 
+import { get } from "../../data/request";
+
 function Tab() {
-  const location = useLocation(null);
-  const navigate = useNavigate();
   const { session, setSession } = useContext(SessionContext);
 
-  const [data, setData] = useState({});
+  const location = useLocation(null);
+  const navigate = useNavigate();
+  const params = useParams();
+
+  const [data, setData] = useState(null);
+  const [format, setFormat] = useState(null);
 
   useEffect(() => {
-    setData({
-      key: "entity_name",
-      value: "Example Test Ltd",
-    });
-  }, [location.key]);
+    async function fetchData() {
+      const url = `${params.table}/${params.id}`;
+      const newData = await get(url);
+      setData(newData.data);
+      setFormat(newData.format);
+    }
+    fetchData();
+  }, [location.key, params.table]);
 
   const [message, setMessage] = useState("");
 
@@ -27,62 +35,74 @@ function Tab() {
 
   const handleSubmit = async () => {
     try {
-      console.log(1, session);
-      console.log(2, data);
       setSession({ ...session, data: data });
-      console.log(3, session);
-      navigate("/tab");
+      navigate(`/${params.table}`);
     } catch (error) {
-      setMessage(`Login failed ${error.message}`);
+      setMessage(`request failed ${error.message}`);
     }
   };
 
   const handleDelete = async () => {
     try {
-      navigate("/tab");
+      navigate(`/${params.table}`);
     } catch (error) {
       setMessage(`Login failed ${error.message}`);
     }
   };
 
+  function TabField(format_field) {
+    console.log(format_field.field);
+    return (
+      <div
+        className={`col-sm-${format_field.field.size}`}
+        key={format_field.field.name}
+      >
+        <label>{format_field.field.label}</label>
+        <input
+          type={format_field.field.type}
+          className="form-control"
+          name={format_field.field.name}
+          value={data[format_field.field.name]}
+          onChange={handleChange}
+          disabled={format_field.field.primary}
+        />
+      </div>
+    );
+  }
+
   return (
     <main>
-      <div className="container">
-        <h3>Session</h3>
-        <label>Key</label>
-        <input
-          type="text"
-          className="form-control"
-          name="key"
-          value={data.key}
-          onChange={handleChange}
-        />
-        <label>Value</label>
-        <input
-          type="text"
-          className="form-control"
-          name="user_pass"
-          value={data.value}
-          onChange={handleChange}
-        />
-        <div className="data-form-footer">
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={handleDelete}
-          >
-            Delete
-          </button>
-          <button
-            className="btn btn-primary"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+      {!data || !format ? (
+        <div className="container">
+          <p>Loading</p>
         </div>
-        <div className="text-error">{message}</div>
-      </div>
+      ) : (
+        <div className="container">
+          <h3>{format.header}</h3>
+          <div className="row">
+            {format.fields.map((field) => (
+              <TabField field={field} />
+            ))}
+          </div>
+          <div className="data-form-footer">
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+            <button
+              className="btn btn-primary"
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
+          <div className="text-error">{message}</div>
+        </div>
+      )}
     </main>
   );
 }

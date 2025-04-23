@@ -6,6 +6,7 @@ import { get } from "../../data/request";
 function TabList() {
   const params = useParams();
   const navigate = useNavigate();
+
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
 
@@ -13,8 +14,8 @@ function TabList() {
     async function fetchData() {
       const url = `${params.table}`;
       const newData = await get(url);
-      await setData(newData.data);
-      await setFormat(newData.format);
+      setData(newData.data);
+      setFormat(newData.format);
     }
     fetchData();
   }, [location.key, params.table]);
@@ -46,7 +47,10 @@ function TabList() {
           format.columns.map((col, col_index) => (
             <td key={col_index} scope="row">
               {col.primary ? (
-                <a href="#" onClick={(e) => goto(e, "x")}>
+                <a
+                  href="#"
+                  onClick={(e) => goto(e, data[row_item.row_index][col.name])}
+                >
                   {data[row_item.row_index][col.name]}
                 </a>
               ) : (
