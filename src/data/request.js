@@ -27,6 +27,37 @@ export async function get(url) {
   };
 }
 
+export async function post(qPath, api_key, data) {
+  const url = `http://localhost:8000/${qPath}`;
+  const result = await doRequest(url, "POST", api_key, data);
+  return result;
+}
+
+const doRequest = async (url, method, api_key, body) => {
+  let options = {
+    method: method,
+    cache: "no-store",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${api_key}`,
+    },
+  };
+  if (body !== null) options.body = JSON.stringify(body);
+
+  const response = await fetch(url, options);
+
+  if (response.status !== 200) {
+    throw new Error(`Invalid response status: ${response.status}`);
+  }
+
+  const json = await response.json();
+
+  return json;
+};
+
+// Mock data
+
 function get_settings_data() {
   return [
     {
