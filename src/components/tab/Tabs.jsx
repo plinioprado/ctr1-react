@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
+import { SessionContext } from "../../SessionContext";
 
 import { get } from "../../data/request";
 
 function TabList() {
+  const { session } = useContext(SessionContext);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -12,10 +15,11 @@ function TabList() {
 
   useEffect(() => {
     async function fetchData() {
-      const url = `${params.table}`;
-      const newData = await get(url);
-      setData(newData.data);
-      setFormat(newData.format);
+      const url = `ctr1/admin/${params.table}`;
+      const response = await get(url, session.user.api_key, "");
+
+      setData(response.data);
+      setFormat(response.format);
     }
     fetchData();
   }, [location.key, params.table]);
@@ -32,7 +36,7 @@ function TabList() {
           {format &&
             format.columns.map((col, index) => (
               <th key={index} scope="col">
-                {col.label}
+                {col.header}
               </th>
             ))}
         </tr>

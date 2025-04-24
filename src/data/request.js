@@ -1,4 +1,18 @@
-export async function get(url) {
+export async function get(path, api_key, qString) {
+  try {
+    const url = `http://localhost:8000/${path}${qString || ""}`;
+    const result = await doRequest(url, "GET", api_key);
+
+    return {
+      data: result.data,
+      format: result.format,
+    };
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function get2(url) {
   let data = null;
   let format = null;
   if (url === "users") {

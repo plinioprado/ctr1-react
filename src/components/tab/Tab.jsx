@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 import { SessionContext } from "../../SessionContext";
 
 import FieldText from "../fields/FieldText";
@@ -19,10 +20,11 @@ function Tab() {
 
   useEffect(() => {
     async function fetchData() {
-      const url = `${params.table}/${params.id}`;
-      const newData = await get(url);
-      setData(newData.data);
-      setFormat(newData.format);
+      const url = `ctr1/admin/${params.table}/${params.id}`;
+      const response = await get(url, session.user.api_key, "");
+
+      setData(response.data);
+      setFormat(response.format);
     }
     fetchData();
   }, [location.key, params.table]);
