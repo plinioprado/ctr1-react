@@ -3,8 +3,10 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { SessionContext } from "../../SessionContext";
 
-import FieldText from "../fields/FieldText";
+import FieldBoolean from "../fields/FieldBoolean";
 import FielInteger from "../fields/FieldInteger";
+import FieldSelect from "../fields/FieldSelect";
+import FieldText from "../fields/FieldText";
 
 import { get } from "../../data/request";
 
@@ -81,6 +83,20 @@ function Tab() {
             {format.fields.map((format_field) =>
               format_field.type === "integer" ? (
                 <FielInteger
+                  data_field={data[format_field.name]}
+                  format_field={format_field}
+                  handleChange={handleChange}
+                  key={format_field.name}
+                />
+              ) : format_field.type === "select" ? (
+                <FieldSelect
+                  data_field={data[format_field.name]}
+                  format_field={format_field}
+                  handleChange={handleChange}
+                  key={format_field.name}
+                />
+              ) : format_field.type === "boolean" ? (
+                <FieldBoolean
                   data_field={data[format_field.name]}
                   format_field={format_field}
                   handleChange={handleChange}

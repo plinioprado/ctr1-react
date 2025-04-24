@@ -57,6 +57,12 @@ function TabList() {
                 >
                   {data[row_item.row_index][col.name]}
                 </a>
+              ) : col.type === "boolean" ? (
+                data[row_item.row_index][col.name] ? (
+                  "Yes"
+                ) : (
+                  "No"
+                )
               ) : (
                 data[row_item.row_index][col.name]
               )}
