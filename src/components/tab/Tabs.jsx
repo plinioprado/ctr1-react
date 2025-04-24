@@ -70,7 +70,7 @@ function TabList() {
         </div>
       ) : (
         <div className="container">
-          <h3>{format.header}</h3>
+          <h2>{format.h2}</h2>
           <div className="data-table-header">
             <button
               type="button"

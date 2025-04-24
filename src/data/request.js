@@ -73,7 +73,7 @@ function get_settings_data() {
 
 function get_settings_format() {
   return {
-    header: "Settings",
+    h2: "Settings",
     columns: [
       {
         name: "key",
@@ -99,20 +99,20 @@ function get_setting_data(id) {
 
 function get_setting_format() {
   return {
-    header: "Setting",
+    h2: "Setting",
     fields: [
       {
         name: "key",
         label: "Key",
         type: "text",
-        size: 6,
+        md: 6,
         primary: true,
       },
       {
         name: "value",
         label: "Value",
         type: "text",
-        size: 6,
+        md: 6,
       },
     ],
   };
@@ -139,7 +139,7 @@ function get_users_data() {
 
 function get_users_format() {
   return {
-    header: "Users",
+    h2: "Users",
     columns: [
       {
         name: "id",
@@ -173,39 +173,39 @@ function get_user_data(id) {
 
 function get_user_format() {
   return {
-    header: "User",
+    h2: "User",
     fields: [
       {
         name: "id",
         label: "Id",
         type: "integer",
         primary: true,
-        size: 2,
+        md: 2,
       },
       {
         name: "name",
         label: "Name",
         type: "text",
-        size: 10,
+        md: 10,
       },
       {
         name: "email",
         label: "Email",
         type: "text",
-        size: 6,
+        md: 6,
       },
 
       {
         name: "pass",
         label: "Pass",
         type: "text",
-        size: 6,
+        md: 6,
       },
       {
         name: "birthday",
         label: "Birthday",
         type: "date",
-        size: 3,
+        md: 3,
       },
     ],
   };

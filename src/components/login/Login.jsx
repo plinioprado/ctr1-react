@@ -42,7 +42,7 @@ function Login() {
     <main>
       <div className="container">
         <div className="login">
-          <h3>Login</h3>
+          <h2>Login</h2>
           <label>User</label>
           <input
             type="text"

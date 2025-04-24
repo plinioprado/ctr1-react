@@ -3,7 +3,7 @@ function Home() {
     <main>
       <div className="container">
         <div>
-          <h3>Home</h3>
+          <h2>Home</h2>
         </div>
       </div>
     </main>
