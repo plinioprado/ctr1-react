@@ -1,4 +1,18 @@
-export async function get(url) {
+export async function get(path, api_key, qString) {
+  try {
+    const url = `http://localhost:8000/${path}${qString || ""}`;
+    const result = await doRequest(url, "GET", api_key);
+
+    return {
+      data: result.data,
+      format: result.format,
+    };
+  } catch (err) {
+    return err;
+  }
+}
+
+export async function get2(url) {
   let data = null;
   let format = null;
   if (url === "users") {
@@ -27,6 +41,49 @@ export async function get(url) {
   };
 }
 
+export async function post(qPath, api_key, data) {
+  const url = `http://localhost:8000/${qPath}`;
+  const result = await doRequest(url, "POST", api_key, data);
+  return result;
+}
+
+export async function put(path, api_key, data) {
+  const url = `http://localhost:8000/${path}`;
+  const result = await doRequest(url, "PUT", api_key, data);
+  return result;
+}
+
+export async function del(path, api_key) {
+  const url = `http://localhost:8000/${path}`;
+  const result = await doRequest(url, "DELETE", api_key);
+  return result;
+}
+
+const doRequest = async (url, method, api_key, body) => {
+  let options = {
+    method: method,
+    cache: "no-store",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${api_key}`,
+    },
+  };
+  if (body !== null) options.body = JSON.stringify(body);
+
+  const response = await fetch(url, options);
+
+  if (response.status !== 200) {
+    throw new Error(`Invalid response status: ${response.status}`);
+  }
+
+  const json = await response.json();
+
+  return json;
+};
+
+// Mock data
+
 function get_settings_data() {
   return [
     {
@@ -42,7 +99,7 @@ function get_settings_data() {
 
 function get_settings_format() {
   return {
-    header: "Settings",
+    h2: "Settings",
     columns: [
       {
         name: "key",
@@ -68,20 +125,20 @@ function get_setting_data(id) {
 
 function get_setting_format() {
   return {
-    header: "Setting",
+    h2: "Setting",
     fields: [
       {
         name: "key",
         label: "Key",
         type: "text",
-        size: 6,
+        md: 6,
         primary: true,
       },
       {
         name: "value",
         label: "Value",
         type: "text",
-        size: 6,
+        md: 6,
       },
     ],
   };
@@ -108,7 +165,7 @@ function get_users_data() {
 
 function get_users_format() {
   return {
-    header: "Users",
+    h2: "Users",
     columns: [
       {
         name: "id",
@@ -142,39 +199,39 @@ function get_user_data(id) {
 
 function get_user_format() {
   return {
-    header: "User",
+    h2: "User",
     fields: [
       {
         name: "id",
         label: "Id",
         type: "integer",
         primary: true,
-        size: 2,
+        md: 2,
       },
       {
         name: "name",
         label: "Name",
         type: "text",
-        size: 10,
+        md: 10,
       },
       {
         name: "email",
         label: "Email",
         type: "text",
-        size: 6,
+        md: 6,
       },
 
       {
         name: "pass",
         label: "Pass",
         type: "text",
-        size: 6,
+        md: 6,
       },
       {
         name: "birthday",
         label: "Birthday",
         type: "date",
-        size: 3,
+        md: 3,
       },
     ],
   };
