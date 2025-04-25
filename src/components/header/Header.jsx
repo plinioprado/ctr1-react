@@ -65,7 +65,7 @@ function Header() {
                         <a
                           className="dropdown-item"
                           href="#"
-                          to="/users"
+                          to="/user"
                           onClick={handleMenu}
                         >
                           Users
@@ -75,7 +75,7 @@ function Header() {
                         <a
                           className="dropdown-item"
                           href="#"
-                          to="/settings"
+                          to="/setting"
                           onClick={handleMenu}
                         >
                           Settings

@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SessionContext } from "../../SessionContext";
 
+import { post } from "../../data/request";
+
 function Login() {
   const location = useLocation(null);
   const navigate = useNavigate();
@@ -28,7 +30,8 @@ function Login() {
 
   const handleSubmit = async () => {
     try {
-      setSession({ user: { name: "John Doe" }, entity: { name: "Test Ltd." } });
+      const response = await post("ctr1/login", "", data);
+      setSession({ ...response.data });
       navigate("/home");
     } catch (error) {
       setMessage(`Login failed ${error.message}`);
@@ -39,7 +42,7 @@ function Login() {
     <main>
       <div className="container">
         <div className="login">
-          <h3>Login</h3>
+          <h2>Login</h2>
           <label>User</label>
           <input
             type="text"
