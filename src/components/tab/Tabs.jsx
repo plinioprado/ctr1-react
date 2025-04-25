@@ -13,9 +13,18 @@ function TabList() {
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
 
+  const getUrl = () => {
+    const key = session.menu_options
+      .filter((op) => op.value === `/${params.table}`)[0]
+      .key.replace("_path_routing", "_path_api");
+    const url =
+      "ctr1" + session.menu_options.filter((op) => op.key === key)[0].value;
+    return url;
+  };
+
   useEffect(() => {
     async function fetchData() {
-      const url = `ctr1/admin/${params.table}`;
+      const url = getUrl();
       const response = await get(url, session.user.api_key, "");
 
       setData(response.data);

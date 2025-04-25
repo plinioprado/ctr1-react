@@ -20,10 +20,22 @@ function Tab() {
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
 
+  const getUrl = () => {
+    const key = session.menu_options
+      .filter((op) => op.value === `/${params.table}`)[0]
+      .key.replace("_path_routing", "_path_api");
+    const url = session.menu_options.filter((op) => op.key === key)[0].value;
+    return `ctr1${url}`;
+  };
+  const url = getUrl();
+
   useEffect(() => {
     async function fetchData() {
-      const url = `ctr1/admin/${params.table}/${params.id}`;
-      const response = await get(url, session.user.api_key, "");
+      const response = await get(
+        `${url}/${params.id}`,
+        session.user.api_key,
+        "",
+      );
 
       setData(response.data);
       setFormat(response.format);
@@ -42,15 +54,14 @@ function Tab() {
 
   async function onSubmit(op) {
     try {
-      const qPath = `ctr1/admin/${params.table}/${params.id}`;
       if (op === "sub") {
         if (params.id === "new") {
-          await post(qPath, session.user.api_key, data);
+          await post(url, session.user.api_key, data);
         } else {
-          await put(qPath, session.user.api_key, data);
+          await put(url, session.user.api_key, data);
         }
       } else {
-        await del(`${qPath}`, session.user.api_key);
+        await del(`${url}/${params.id}`, session.user.api_key);
       }
 
       await navigate(`/${params.table}`);
