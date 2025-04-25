@@ -19,7 +19,6 @@ function TabList() {
       .key.replace("_path_routing", "_path_api");
     const url =
       "ctr1" + session.menu_options.filter((op) => op.key === key)[0].value;
-    console.log("url", url);
     return url;
   };
 
