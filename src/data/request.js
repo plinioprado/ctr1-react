@@ -47,6 +47,18 @@ export async function post(qPath, api_key, data) {
   return result;
 }
 
+export async function put(path, api_key, data) {
+  const url = `http://localhost:8000/${path}`;
+  const result = await doRequest(url, "PUT", api_key, data);
+  return result;
+}
+
+export async function del(path, api_key) {
+  const url = `http://localhost:8000/${path}`;
+  const result = await doRequest(url, "DELETE", api_key);
+  return result;
+}
+
 const doRequest = async (url, method, api_key, body) => {
   let options = {
     method: method,

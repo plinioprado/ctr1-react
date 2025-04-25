@@ -8,10 +8,10 @@ import FielInteger from "../fields/FieldInteger";
 import FieldSelect from "../fields/FieldSelect";
 import FieldText from "../fields/FieldText";
 
-import { get } from "../../data/request";
+import { get, post, put, del } from "../../data/request";
 
 function Tab() {
-  const { session, setSession } = useContext(SessionContext);
+  const { session } = useContext(SessionContext);
 
   const location = useLocation(null);
   const navigate = useNavigate();
@@ -40,22 +40,24 @@ function Tab() {
     });
   };
 
-  const onSubmit = async () => {
+  async function onSubmit(op) {
     try {
-      setSession({ ...session, data: data });
-      navigate(`/${params.table}`);
-    } catch (error) {
-      setMessage(`request failed ${error.message}`);
-    }
-  };
+      const qPath = `ctr1/admin/${params.table}/${params.id}`;
+      if (op === "sub") {
+        if (params.id === "new") {
+          await post(qPath, session.user.api_key, data);
+        } else {
+          await put(qPath, session.user.api_key, data);
+        }
+      } else {
+        await del(`${qPath}`, session.user.api_key);
+      }
 
-  const onDelete = async () => {
-    try {
-      navigate(`/${params.table}`);
-    } catch (error) {
-      setMessage(`Login failed ${error.message}`);
+      await navigate(`/${params.table}`);
+    } catch (err) {
+      setMessage(err.message);
     }
-  };
+  }
 
   const onReturn = async () => {
     navigate(`/${params.table}`);
@@ -116,14 +118,14 @@ function Tab() {
             <button
               className="btn btn-primary"
               type="button"
-              onClick={onDelete}
+              onClick={() => onSubmit("del")}
             >
               Delete
             </button>
             <button
               className="btn btn-primary"
               type="submit"
-              onClick={onSubmit}
+              onClick={() => onSubmit("sub")}
             >
               Submit
             </button>
