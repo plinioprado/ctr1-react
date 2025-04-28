@@ -25,7 +25,7 @@ function Tab() {
       .filter((op) => op.value === `/${params.component}/${params.resource}`)[0]
       .key.replace("_path_routing", "_path_api");
     const url = session.menu_options.filter((op) => op.key === key)[0].value;
-    return `ctr1${url}`;
+    return `${url}`;
   };
   const url = getUrl();
 

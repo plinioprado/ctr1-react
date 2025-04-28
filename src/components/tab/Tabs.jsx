@@ -17,8 +17,7 @@ function TabList() {
     const key = session.menu_options
       .filter((op) => op.value === `/${params.component}/${params.resource}`)[0]
       .key.replace("_path_routing", "_path_api");
-    const url =
-      "ctr1" + session.menu_options.filter((op) => op.key === key)[0].value;
+    const url = session.menu_options.filter((op) => op.key === key)[0].value;
     return url;
   };
 
@@ -31,7 +30,7 @@ function TabList() {
       setFormat(response.format);
     }
     fetchData();
-  }, [location.key, params.table]);
+  }, [location.key, params.component, params.resource, params.id]);
 
   const goto = (e, val) => {
     navigate(`/${params.component}/${params.resource}/${val}`);
