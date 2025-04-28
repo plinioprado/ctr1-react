@@ -15,7 +15,7 @@ function TabList() {
 
   const getUrl = () => {
     const key = session.menu_options
-      .filter((op) => op.value === `/${params.table}`)[0]
+      .filter((op) => op.value === `/${params.component}/${params.resource}`)[0]
       .key.replace("_path_routing", "_path_api");
     const url =
       "ctr1" + session.menu_options.filter((op) => op.key === key)[0].value;
@@ -34,7 +34,7 @@ function TabList() {
   }, [location.key, params.table]);
 
   const goto = (e, val) => {
-    navigate(`/${params.table}/${val}`);
+    navigate(`/${params.component}/${params.resource}/${val}`);
     e.preventDefault();
   };
 
