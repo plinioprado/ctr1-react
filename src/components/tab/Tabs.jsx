@@ -31,7 +31,7 @@ function TabList() {
       setFormat(response.format);
     }
     fetchData();
-  }, [location.key, params.table]);
+  }, [location.key, params.component, params.resource, params.id]);
 
   const goto = (e, val) => {
     navigate(`/${params.component}/${params.resource}/${val}`);
