@@ -6,17 +6,14 @@ Generic front-end for finance and business CRUD applications
 
 When the user login with user+pass+tenant, it will return data for a dynamic menu that will indicated the tables to be CRUD.
 
-When the user click over a table in the menu, will be directed to a List page. It will get a REST response with data+format information to render:
+When the user click on an option in the menu, will be directed to a List page. It will get a REST response with data+format information to render:
 
 * An Insert button routing to a new Item page
-* A filter
-* All records with link routing to its Item page
- any of the shown records. Including an Insert button and a
+* All records with link routing to their respective Item page
 
 The Item page will get a REST response with data+format information to render:
 
 * Form with its fields
-* Edit buttom to make it from read only to read and write
 * Return buttom
 * Delete buttom
 * Confirm buttom
@@ -32,13 +29,15 @@ Coding approach is to use the latest version and run a tight cost-benefit analys
 
 ## Endpoints
 
-Login: POST /api/login
-Logout: POST /api/logout
-Show a list: GET /api/:table
-Show a record by cod: GET /api/:table/:id
-Create a record: POST /api/:table
-Update a record: PUT /api/:table
-Delete a record: DELETE /api/:table/:id
+To api:
+
+* Login: POST /ctr1/api/login
+* Logout: POST /ctr1/api/logout
+* Show a list: GET /ctr1/api/:component/:resource
+* Show a record by cod: GET /ctr1/api/:component/:resource/:id
+* Create a record: POST /ctr1/api/:component/:resource
+* Update a record: PUT /ctr1/api/:component/:resource
+* Delete a record: DELETE /ctr1/api/:component/:resource/:id
 
 ## Contribution
 
