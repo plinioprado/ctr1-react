@@ -20,16 +20,28 @@ function Tab() {
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
 
+  const getUrl = () => {
+    const key = session.menu_options
+      .filter((op) => op.value === `/${params.component}/${params.resource}`)[0]
+      .key.replace("_path_routing", "_path_api");
+    const url = session.menu_options.filter((op) => op.key === key)[0].value;
+    return `${url}`;
+  };
+  const url = getUrl();
+
   useEffect(() => {
     async function fetchData() {
-      const url = `ctr1/admin/${params.table}/${params.id}`;
-      const response = await get(url, session.user.api_key, "");
+      const response = await get(
+        `${url}/${params.id}`,
+        session.user.api_key,
+        "",
+      );
 
       setData(response.data);
       setFormat(response.format);
     }
     fetchData();
-  }, [location.key, params.table]);
+  }, [location.key, params.component, params.resource, params.id]);
 
   const [message, setMessage] = useState("");
 
@@ -42,25 +54,24 @@ function Tab() {
 
   async function onSubmit(op) {
     try {
-      const qPath = `ctr1/admin/${params.table}/${params.id}`;
       if (op === "sub") {
         if (params.id === "new") {
-          await post(qPath, session.user.api_key, data);
+          await post(url, session.user.api_key, data);
         } else {
-          await put(qPath, session.user.api_key, data);
+          await put(url, session.user.api_key, data);
         }
       } else {
-        await del(`${qPath}`, session.user.api_key);
+        await del(`${url}/${params.id}`, session.user.api_key);
       }
 
-      await navigate(`/${params.table}`);
+      await navigate(`/${params.component}/${params.resource}`);
     } catch (err) {
       setMessage(err.message);
     }
   }
 
   const onReturn = async () => {
-    navigate(`/${params.table}`);
+    navigate(`/${params.component}/${params.resource}`);
   };
 
   return (
@@ -115,13 +126,15 @@ function Tab() {
             )}
           </div>
           <div className="data-form-footer">
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={() => onSubmit("del")}
-            >
-              Delete
-            </button>
+            {params.id !== "new" && (
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={() => onSubmit("del")}
+              >
+                Delete
+              </button>
+            )}
             <button
               className="btn btn-primary"
               type="submit"

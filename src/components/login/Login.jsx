@@ -30,7 +30,7 @@ function Login() {
 
   const handleSubmit = async () => {
     try {
-      const response = await post("ctr1/login", "", data);
+      const response = await post("/api/login", "", data);
       setSession({ ...response.data });
       navigate("/home");
     } catch (error) {
