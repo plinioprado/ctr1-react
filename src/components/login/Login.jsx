@@ -16,7 +16,7 @@ function Login() {
   const [data, setData] = useState({
     user_email: "john.doe@example.com",
     user_pass: "12345",
-    entity: "test",
+    entity: "example",
   });
 
   const [message, setMessage] = useState("");
