@@ -31,6 +31,8 @@ Coding approach is to use the latest version and run a tight cost-benefit analys
 
 To api:
 
+assuming url_base_api in confiv.json is nof changed from /ctr1
+
 * Login: POST /ctr1/api/login
 * Logout: POST /ctr1/api/logout
 * Show a list: GET /ctr1/api/:component/:resource
@@ -38,6 +40,8 @@ To api:
 * Create a record: POST /ctr1/api/:component/:resource
 * Update a record: PUT /ctr1/api/:component/:resource
 * Delete a record: DELETE /ctr1/api/:component/:resource/:id
+
+Note all urls requesting to back-end include "/api/", to better diferenciate from the urls that are routing fornt-end pages
 
 ## Contribution
 
