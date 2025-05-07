@@ -1,6 +1,10 @@
+import config from "../config.json";
+
 export async function get(path, api_key, qString) {
   try {
-    const url = `http://localhost:8000${path}${qString || ""}`;
+    const url = `http://localhost:8000${config.url_base_api}${path}${
+      qString || ""
+    }`;
     const result = await doRequest(url, "GET", api_key);
 
     return {
@@ -42,19 +46,19 @@ export async function get2(url) {
 }
 
 export async function post(qPath, api_key, data) {
-  const url = `http://localhost:8000${qPath}`;
+  const url = `http://localhost:8000${config.url_base_api}${qPath}`;
   const result = await doRequest(url, "POST", api_key, data);
   return result;
 }
 
 export async function put(path, api_key, data) {
-  const url = `http://localhost:8000${path}`;
+  const url = `http://localhost:8000${config.url_base_api}${path}`;
   const result = await doRequest(url, "PUT", api_key, data);
   return result;
 }
 
 export async function del(path, api_key) {
-  const url = `http://localhost:8000${path}`;
+  const url = `http://localhost:8000${config.url_base_api}${path}`;
   const result = await doRequest(url, "DELETE", api_key);
   return result;
 }
