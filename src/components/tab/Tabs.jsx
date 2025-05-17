@@ -57,7 +57,17 @@ function TabList() {
       <tr index={row_index}>
         {format &&
           format.columns.map((col, col_index) => (
-            <td key={col_index} scope="row">
+            <td
+              key={col_index}
+              scope="row"
+              className={
+                col.type == "integer"
+                  ? "integer"
+                  : col.type == "amount"
+                  ? "amount"
+                  : ""
+              }
+            >
               {col.primary ? (
                 <a
                   href="#"
