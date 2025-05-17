@@ -279,3 +279,13 @@ input.fieldnumber {
 .login label {
   margin-top: 1rem;
 }
+
+/* tables */
+
+td.integer {
+  text-align: right;
+}
+
+td.amount {
+  text-align: right;
+}
