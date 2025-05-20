@@ -46,10 +46,11 @@ function Tab() {
 
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e, val) => {
+    // val optional param because e.target.val is always text
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [e.target.name]: val !== undefined ? val : e.target.value,
     });
   };
 

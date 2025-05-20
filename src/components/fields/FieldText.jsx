@@ -6,9 +6,9 @@ function FieldText({ data_field, format_field, handleChange }) {
         type={format_field.type}
         className="form-control"
         name={format_field.name}
-        value={data_field}
         onChange={handleChange}
-        disabled={format_field.primary}
+        readOnly={format_field.readOnly || format_field.primary}
+        value={data_field}
       />
     </div>
   );
