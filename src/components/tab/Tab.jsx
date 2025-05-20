@@ -7,6 +7,7 @@ import FieldBoolean from "../fields/FieldBoolean";
 import FielInteger from "../fields/FieldInteger";
 import FieldSelect from "../fields/FieldSelect";
 import FieldText from "../fields/FieldText";
+import FieldAmount from "../fields/FieldAmount";
 
 import { get, post, put, del } from "../../data/request";
 
@@ -96,6 +97,13 @@ function Tab() {
             {format.fields.map((format_field) =>
               format_field.type === "integer" ? (
                 <FielInteger
+                  data_field={data[format_field.name]}
+                  format_field={format_field}
+                  handleChange={handleChange}
+                  key={format_field.name}
+                />
+              ) : format_field.type === "amount" ? (
+                <FieldAmount
                   data_field={data[format_field.name]}
                   format_field={format_field}
                   handleChange={handleChange}
