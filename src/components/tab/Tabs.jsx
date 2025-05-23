@@ -53,6 +53,19 @@ function TabList() {
   }
 
   function TableRow(row_item, row_index) {
+    const formatAmount = (val) => {
+      let text = "";
+      if (val !== "" && val !== undefined) {
+        text = (val / 100).toLocaleString("en", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+      } else {
+        text = "";
+      }
+      return text;
+    };
+
     return (
       <tr index={row_index}>
         {format &&
@@ -81,6 +94,8 @@ function TabList() {
                 ) : (
                   "No"
                 )
+              ) : col.type === "amount" ? (
+                data && formatAmount(data[row_item.row_index][col.name])
               ) : (
                 data[row_item.row_index][col.name]
               )}
