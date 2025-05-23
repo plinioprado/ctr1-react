@@ -6,6 +6,7 @@ function FieldSelect({ data_field, format_field, handleChange }) {
         className="form-select"
         name={format_field.name}
         onChange={handleChange}
+        readOnly={format_field.readOnly}
         value={data_field}
       >
         {format_field.options.map((option) => (

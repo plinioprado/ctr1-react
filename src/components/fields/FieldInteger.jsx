@@ -10,6 +10,7 @@ function FielInteger({ data_field, format_field, handleChange }) {
         onChange={handleChange}
         disabled={format_field.primary}
         style={{ textAlign: "right" }}
+        readOnly={format_field.readOnly}
       />
     </div>
   );

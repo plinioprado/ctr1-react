@@ -7,6 +7,8 @@ import FieldBoolean from "../fields/FieldBoolean";
 import FielInteger from "../fields/FieldInteger";
 import FieldSelect from "../fields/FieldSelect";
 import FieldText from "../fields/FieldText";
+import FieldAmount from "../fields/FieldAmount";
+import FieldDate from "../fields/FieldDate";
 
 import { get, post, put, del } from "../../data/request";
 
@@ -45,10 +47,11 @@ function Tab() {
 
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e, val) => {
+    // val optional param because e.target.val is always text
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [e.target.name]: val !== undefined ? val : e.target.value,
     });
   };
 
@@ -101,6 +104,13 @@ function Tab() {
                   handleChange={handleChange}
                   key={format_field.name}
                 />
+              ) : format_field.type === "amount" ? (
+                <FieldAmount
+                  data_field={data[format_field.name]}
+                  format_field={format_field}
+                  handleChange={handleChange}
+                  key={format_field.name}
+                />
               ) : format_field.type === "select" ? (
                 <FieldSelect
                   data_field={data[format_field.name]}
@@ -110,6 +120,13 @@ function Tab() {
                 />
               ) : format_field.type === "boolean" ? (
                 <FieldBoolean
+                  data_field={data[format_field.name]}
+                  format_field={format_field}
+                  handleChange={handleChange}
+                  key={format_field.name}
+                />
+              ) : format_field.type === "date" ? (
+                <FieldDate
                   data_field={data[format_field.name]}
                   format_field={format_field}
                   handleChange={handleChange}

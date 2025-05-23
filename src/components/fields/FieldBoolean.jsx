@@ -8,6 +8,7 @@ function FieldBoolean({ data_field, format_field, handleChange }) {
         name={format_field.name}
         onChange={handleChange}
         value={data_field}
+        readOnly={format_field.readOnly}
       >
         <option value={true}>True</option>
         <option value={false}>False</option>
