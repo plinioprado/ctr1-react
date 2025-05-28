@@ -1,3 +1,3 @@
 {
-  "url_base_api": "/tws1"
+  "url_base_api": "http://localhost:8000/tws1"
 }
