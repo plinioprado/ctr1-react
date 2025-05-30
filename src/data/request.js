@@ -4,10 +4,7 @@ export async function get(path, api_key, qString) {
   const url = `${config.url_base_api}${path}${qString || ""}`;
   const result = await doRequest(url, "GET", api_key);
 
-  return {
-    data: result.data,
-    format: result.format,
-  };
+  return result;
 }
 
 export async function post(qPath, api_key, data) {

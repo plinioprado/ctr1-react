@@ -5,6 +5,8 @@ import { SessionContext } from "../../SessionContext";
 
 import { get } from "../../data/request";
 
+import TableFilter from "./TableFilter";
+
 function TabList() {
   const { session } = useContext(SessionContext);
   const params = useParams();
@@ -12,6 +14,7 @@ function TabList() {
 
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
+  const [filtersData, setFiltersData] = useState(null);
 
   const getUrl = () => {
     const key = session.menu_options
@@ -28,6 +31,7 @@ function TabList() {
 
       setData(response.data);
       setFormat(response.format);
+      setFiltersData(response.filters);
     }
     fetchData();
   }, [location.key, params.component, params.resource, params.id]);
@@ -37,9 +41,29 @@ function TabList() {
     e.preventDefault();
   };
 
+  const handleFilterChange = (e, val) => {
+    const key = e.target.name;
+    const value = val || e.target.value;
+    const filters = filtersData.map((f) =>
+      Object.keys(f)[0] === key ? { [key]: value } : f,
+    );
+    setFiltersData(filters);
+  };
+
   function TableHead() {
     return (
       <thead>
+        {format && format.filters && (
+          <tr>
+            <td colSpan={format.columns.length}>
+              <TableFilter
+                formats={format.filters}
+                filtersData={filtersData}
+                handleFilterChange={handleFilterChange}
+              />
+            </td>
+          </tr>
+        )}
         <tr>
           {format &&
             format.columns.map((col, index) => (
@@ -113,8 +137,8 @@ function TabList() {
         </div>
       ) : (
         <div className="container">
-          <h2>{format.h2}</h2>
           <div className="data-table-header">
+            <h2>{format.h2}</h2>
             <button
               type="button"
               className="btn btn-primary"

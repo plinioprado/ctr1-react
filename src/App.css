@@ -167,6 +167,7 @@ main.login .container form {
 /* table */
 
 .table-filter {
+  margin-top: 2em;
   display: flex;
   flex-direction: row;
 }
@@ -200,13 +201,10 @@ input.fieldnumber {
 }
 
 .data-table-header {
-  margin-top: 2em;
+  margin-top: 1em;
+  margin-bottom: 2em;
   display: flex;
-  justify-content: flex-end;
-}
-
-.data-table-header button {
-  margin-left: 0.5em;
+  justify-content: space-between;
 }
 
 .data-form-header {
