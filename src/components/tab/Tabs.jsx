@@ -41,13 +41,14 @@ function TabList() {
     e.preventDefault();
   };
 
-  const handleFilterChange = (e, val) => {
-    const key = e.target.name;
-    const value = val || e.target.value;
-    const filters = filtersData.map((f) =>
-      Object.keys(f)[0] === key ? { [key]: value } : f,
-    );
-    setFiltersData(filters);
+  const onFilterChange = (name, value) => {
+    console.log(2, name, value);
+    // const key = e.target.name;
+    // const value = val || e.target.value;
+    // const filters = filtersData.map((f) =>
+    //   Object.keys(f)[0] === key ? { [key]: value } : f,
+    // );
+    // setFiltersData(filters);
   };
 
   function TableHead() {
@@ -59,7 +60,7 @@ function TabList() {
               <TableFilter
                 formats={format.filters}
                 filtersData={filtersData}
-                handleFilterChange={handleFilterChange}
+                onFilterChange={onFilterChange}
               />
             </td>
           </tr>

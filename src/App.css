@@ -170,18 +170,8 @@ main.login .container form {
   margin-top: 2em;
   display: flex;
   flex-direction: row;
-}
-
-.table-filter div {
-  display: flex;
-  flex-direction: row;
   align-items: center;
-}
-
-.table-filter div span {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  white-space: nowrap;
+  gap: 0.5em;
 }
 
 td.number {
