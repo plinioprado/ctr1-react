@@ -5,7 +5,7 @@ import { SessionContext } from "../../SessionContext";
 
 import { get } from "../../data/request";
 
-import TableFilter from "./TableFilter";
+import FieldText from "../fields/FieldText";
 
 function TabList() {
   const { session } = useContext(SessionContext);
@@ -14,7 +14,7 @@ function TabList() {
 
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
-  const [filtersData, setFiltersData] = useState(null);
+  const [filters, setfilters] = useState({});
 
   const getUrl = () => {
     const key = session.menu_options
@@ -31,7 +31,7 @@ function TabList() {
 
       setData(response.data);
       setFormat(response.format);
-      setFiltersData(response.filters);
+      setfilters(response.filters);
     }
     fetchData();
   }, [location.key, params.component, params.resource, params.id]);
@@ -42,14 +42,13 @@ function TabList() {
   };
 
   const onFilterChange = (name, value) => {
-    console.log(2, name, value);
-    // const key = e.target.name;
-    // const value = val || e.target.value;
-    // const filters = filtersData.map((f) =>
-    //   Object.keys(f)[0] === key ? { [key]: value } : f,
-    // );
-    // setFiltersData(filters);
+    setfilters({
+      ...filters,
+      [name]: value,
+    });
   };
+
+  // Got it, have to change filter value onBlur and not onChange!!!!!!!!!
 
   function TableHead() {
     return (
@@ -57,11 +56,22 @@ function TabList() {
         {format && format.filters && (
           <tr>
             <td colSpan={format.columns.length}>
-              <TableFilter
-                formats={format.filters}
-                filtersData={filtersData}
-                onFilterChange={onFilterChange}
-              />
+              <div className="table-filter">
+                {format.filters &&
+                  format.filters.map((format_filter) => (
+                    <FieldText
+                      data_field={filters[format_filter.name] || ""}
+                      format_field={format_filter}
+                      handleChange={(e) =>
+                        onFilterChange(e.target.name, e.target.value)
+                      }
+                      key={format_filter.name}
+                    />
+                  ))}
+                <button type="button" className="btn btn-primary">
+                  Reload
+                </button>
+              </div>
             </td>
           </tr>
         )}
