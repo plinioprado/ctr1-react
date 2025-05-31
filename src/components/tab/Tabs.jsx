@@ -5,7 +5,7 @@ import { SessionContext } from "../../SessionContext";
 
 import { get } from "../../data/request";
 
-import FieldText from "../fields/FieldText";
+import FieldTextBlur from "../fields/FieldTextBlur";
 
 function TabList() {
   const { session } = useContext(SessionContext);
@@ -15,6 +15,8 @@ function TabList() {
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
   const [filters, setfilters] = useState({});
+  const [reloadEnabled, setReloadEnabled] = useState(false);
+  const [reload, setReload] = useState(false);
 
   const getUrl = () => {
     const key = session.menu_options
@@ -32,23 +34,23 @@ function TabList() {
       setData(response.data);
       setFormat(response.format);
       setfilters(response.filters);
+      console.log("loaded");
     }
     fetchData();
-  }, [location.key, params.component, params.resource, params.id]);
+  }, [location.key, params.component, params.resource, params.id, reload]);
 
   const goto = (e, val) => {
     navigate(`/${params.component}/${params.resource}/${val}`);
     e.preventDefault();
   };
 
-  const onFilterChange = (name, value) => {
+  const handleFilterChange = (e) => {
+    if (filters[e.target.name] !== e.target.value) setReloadEnabled(true);
     setfilters({
       ...filters,
-      [name]: value,
+      [e.target.name]: e.target.value,
     });
   };
-
-  // Got it, have to change filter value onBlur and not onChange!!!!!!!!!
 
   function TableHead() {
     return (
@@ -59,16 +61,19 @@ function TabList() {
               <div className="table-filter">
                 {format.filters &&
                   format.filters.map((format_filter) => (
-                    <FieldText
+                    <FieldTextBlur
                       data_field={filters[format_filter.name] || ""}
                       format_field={format_filter}
-                      handleChange={(e) =>
-                        onFilterChange(e.target.name, e.target.value)
-                      }
+                      handleFilterChange={handleFilterChange}
                       key={format_filter.name}
                     />
                   ))}
-                <button type="button" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  disabled={!reloadEnabled}
+                  onClick={() => setReload(!reload)}
+                >
                   Reload
                 </button>
               </div>
