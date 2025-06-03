@@ -15,8 +15,19 @@ function TabList() {
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
   const [filters, setfilters] = useState({});
-  const [reloadEnabled, setReloadEnabled] = useState(false);
-  const [reload, setReload] = useState(false);
+
+  const getQueryString = () => {
+    if (!format || !format.filters || filters == {}) return "";
+
+    let query = "";
+    format.filters.forEach((ff) => {
+      if (!["", null].includes(filters[ff.name])) {
+        if (query === "") query += "?";
+        query += `${ff.name}=${filters[ff.name] || ""}`;
+      }
+    });
+    return query;
+  };
 
   const getUrl = () => {
     const key = session.menu_options
@@ -29,23 +40,29 @@ function TabList() {
   useEffect(() => {
     async function fetchData() {
       const url = getUrl();
-      const response = await get(url, session.user.api_key, "");
+      const qString = location.search || "";
+      const response = await get(`${url}${qString}`, session.user.api_key, "");
 
       setData(response.data);
       setFormat(response.format);
       setfilters(response.filters);
-      console.log("loaded");
     }
     fetchData();
-  }, [location.key, params.component, params.resource, params.id, reload]);
+  }, [location.href]);
 
   const goto = (e, val) => {
-    navigate(`/${params.component}/${params.resource}/${val}`);
+    const url = `/${params.component}/${params.resource}/${val}`;
+    navigate(url);
     e.preventDefault();
   };
 
+  const reload = () => {
+    const qString = getQueryString();
+    const url = `/${params.component}/${params.resource}${qString}`;
+    navigate(url);
+  };
+
   const handleFilterChange = (e) => {
-    if (filters[e.target.name] !== e.target.value) setReloadEnabled(true);
     setfilters({
       ...filters,
       [e.target.name]: e.target.value,
@@ -71,8 +88,7 @@ function TabList() {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  disabled={!reloadEnabled}
-                  onClick={() => setReload(!reload)}
+                  onClick={reload}
                 >
                   Reload
                 </button>
