@@ -5,6 +5,8 @@ import { SessionContext } from "../../SessionContext";
 
 import { get } from "../../data/request";
 
+import FieldTextBlur from "../fields/FieldTextBlur";
+
 function TabList() {
   const { session } = useContext(SessionContext);
   const params = useParams();
@@ -12,6 +14,20 @@ function TabList() {
 
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
+  const [filters, setfilters] = useState({});
+
+  const getQueryString = () => {
+    if (!format || !format.filters || filters == {}) return "";
+
+    let query = "";
+    format.filters.forEach((ff) => {
+      if (!["", null].includes(filters[ff.name])) {
+        if (query === "") query += "?";
+        query += `${ff.name}=${filters[ff.name] || ""}`;
+      }
+    });
+    return query;
+  };
 
   const getUrl = () => {
     const key = session.menu_options
@@ -24,22 +40,62 @@ function TabList() {
   useEffect(() => {
     async function fetchData() {
       const url = getUrl();
-      const response = await get(url, session.user.api_key, "");
+      const qString = location.search || "";
+      const response = await get(`${url}${qString}`, session.user.api_key, "");
 
       setData(response.data);
       setFormat(response.format);
+      setfilters(response.filters);
     }
     fetchData();
-  }, [location.key, params.component, params.resource, params.id]);
+  }, [location.href]);
 
   const goto = (e, val) => {
-    navigate(`/${params.component}/${params.resource}/${val}`);
+    const url = `/${params.component}/${params.resource}/${val}`;
+    navigate(url);
     e.preventDefault();
+  };
+
+  const reload = () => {
+    const qString = getQueryString();
+    const url = `/${params.component}/${params.resource}${qString}`;
+    navigate(url);
+  };
+
+  const handleFilterChange = (e) => {
+    setfilters({
+      ...filters,
+      [e.target.name]: e.target.value,
+    });
   };
 
   function TableHead() {
     return (
       <thead>
+        {format && format.filters && (
+          <tr>
+            <td colSpan={format.columns.length}>
+              <div className="table-filter">
+                {format.filters &&
+                  format.filters.map((format_filter) => (
+                    <FieldTextBlur
+                      data_field={filters[format_filter.name] || ""}
+                      format_field={format_filter}
+                      handleFilterChange={handleFilterChange}
+                      key={format_filter.name}
+                    />
+                  ))}
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={reload}
+                >
+                  Reload
+                </button>
+              </div>
+            </td>
+          </tr>
+        )}
         <tr>
           {format &&
             format.columns.map((col, index) => (
@@ -113,8 +169,8 @@ function TabList() {
         </div>
       ) : (
         <div className="container">
-          <h2>{format.h2}</h2>
           <div className="data-table-header">
+            <h2>{format.h2}</h2>
             <button
               type="button"
               className="btn btn-primary"

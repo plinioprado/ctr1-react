@@ -167,20 +167,11 @@ main.login .container form {
 /* table */
 
 .table-filter {
+  margin-top: 2em;
   display: flex;
   flex-direction: row;
-}
-
-.table-filter div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.table-filter div span {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  white-space: nowrap;
+  align-items: flex-end;
+  gap: 0.5em;
 }
 
 td.number {
@@ -200,13 +191,10 @@ input.fieldnumber {
 }
 
 .data-table-header {
-  margin-top: 2em;
+  margin-top: 1em;
+  margin-bottom: 2em;
   display: flex;
-  justify-content: flex-end;
-}
-
-.data-table-header button {
-  margin-left: 0.5em;
+  justify-content: space-between;
 }
 
 .data-form-header {
