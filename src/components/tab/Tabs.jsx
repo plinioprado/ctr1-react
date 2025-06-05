@@ -21,8 +21,9 @@ function TabList() {
 
     let query = "";
     format.filters.forEach((ff) => {
-      if (!["", null].includes(filters[ff.name])) {
+      if (!["", null, undefined].includes(filters[ff.name])) {
         if (query === "") query += "?";
+        else query += "&";
         query += `${ff.name}=${filters[ff.name] || ""}`;
       }
     });
@@ -63,10 +64,12 @@ function TabList() {
   };
 
   const handleFilterChange = (e) => {
-    setfilters({
-      ...filters,
-      [e.target.name]: e.target.value,
-    });
+    if (!["", null, undefined].includes(e.target.value)) {
+      setfilters({
+        ...filters,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   function TableHead() {
