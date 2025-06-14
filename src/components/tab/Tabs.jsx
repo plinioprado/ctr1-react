@@ -6,6 +6,7 @@ import { SessionContext } from "../../SessionContext";
 import { get } from "../../data/request";
 
 import FieldTextBlur from "../fields/FieldTextBlur";
+import FieldDateBlur from "../fields/FieldDateBlur";
 
 function TabList() {
   const { session } = useContext(SessionContext);
@@ -63,13 +64,18 @@ function TabList() {
     navigate(url);
   };
 
-  const handleFilterChange = (e) => {
-    if (!["", null, undefined].includes(e.target.value)) {
+  const handleFilterChange = (name, value) => {
+    console.log(1, filters);
+    if (!["", null, undefined].includes(value)) {
       setfilters({
         ...filters,
-        [e.target.name]: e.target.value,
+        [name]: value,
       });
+    } else {
+      const { [name]: _, ...rest } = filters;
+      setfilters(rest);
     }
+    console.log(2, filters);
   };
 
   function TableHead() {
@@ -80,14 +86,23 @@ function TabList() {
             <td colSpan={format.columns.length}>
               <div className="table-filter">
                 {format.filters &&
-                  format.filters.map((format_filter) => (
-                    <FieldTextBlur
-                      data_field={filters[format_filter.name] || ""}
-                      format_field={format_filter}
-                      handleFilterChange={handleFilterChange}
-                      key={format_filter.name}
-                    />
-                  ))}
+                  format.filters.map((format_filter) =>
+                    format_filter.type === "date" ? (
+                      <FieldDateBlur
+                        data_field={filters[format_filter.name] || ""}
+                        format_field={format_filter}
+                        handleFilterChange={handleFilterChange}
+                        key={format_filter.name}
+                      />
+                    ) : (
+                      <FieldTextBlur
+                        data_field={filters[format_filter.name] || ""}
+                        format_field={format_filter}
+                        handleFilterChange={handleFilterChange}
+                        key={format_filter.name}
+                      />
+                    ),
+                  )}
                 <button
                   type="button"
                   className="btn btn-primary"
