@@ -7,8 +7,6 @@ function FieldDateBlur({ data_field, format_field, handleFilterChange }) {
     setValue(e.target.value);
   };
 
-  console.log(1, format_field);
-
   return (
     <div className={`col-md-${format_field.md}`} key={format_field.name}>
       <label>{format_field.label}</label>

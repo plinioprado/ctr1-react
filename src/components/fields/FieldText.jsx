@@ -9,6 +9,11 @@ function FieldText({ data_field, format_field, handleChange }) {
         onChange={handleChange}
         readOnly={format_field.readOnly || format_field.primary}
         value={data_field}
+        size={format_field.size}
+        minLength={format_field.min_length}
+        maxLength={format_field.max_length}
+        pattern={format_field.pattern}
+        required={format_field.required}
       />
     </div>
   );
