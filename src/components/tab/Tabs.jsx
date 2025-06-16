@@ -65,7 +65,6 @@ function TabList() {
   };
 
   const handleFilterChange = (name, value) => {
-    console.log(1, filters);
     if (!["", null, undefined].includes(value)) {
       setfilters({
         ...filters,
