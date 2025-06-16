@@ -65,7 +65,6 @@ function TabList() {
   };
 
   const handleFilterChange = (name, value) => {
-    console.log(1, filters);
     if (!["", null, undefined].includes(value)) {
       setfilters({
         ...filters,
@@ -75,7 +74,6 @@ function TabList() {
       const { [name]: _, ...rest } = filters;
       setfilters(rest);
     }
-    console.log(2, filters);
   };
 
   function TableHead() {

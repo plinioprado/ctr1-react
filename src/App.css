@@ -182,6 +182,10 @@ input.fieldnumber {
   text-align: right;
 }
 
+input:invalid {
+  border-color: red;
+}
+
 .text-error {
   color: red;
 }
