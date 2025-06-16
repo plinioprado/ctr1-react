@@ -74,6 +74,7 @@ function TabList() {
       const { [name]: _, ...rest } = filters;
       setfilters(rest);
     }
+    console.log(2, filters);
   };
 
   function TableHead() {
