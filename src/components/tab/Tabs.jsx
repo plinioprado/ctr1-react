@@ -74,7 +74,6 @@ function TabList() {
       const { [name]: _, ...rest } = filters;
       setfilters(rest);
     }
-    console.log(2, filters);
   };
 
   function TableHead() {
@@ -122,6 +121,17 @@ function TabList() {
             ))}
         </tr>
       </thead>
+    );
+  }
+
+  function TableRowSubHeader({ row_item, format, row_index }) {
+    return (
+      <tr index={row_index}>
+        <td colSpan={format.columns.length}>
+          <br />
+          {row_item.row_text}
+        </td>
+      </tr>
     );
   }
 
@@ -200,9 +210,18 @@ function TabList() {
             <TableHead />
             <tbody>
               {data &&
-                data.map((item, index) => (
-                  <TableRow key={index} row_item={item} row_index={index} />
-                ))}
+                data.map((item, index) =>
+                  item.row_type === "sub_header" ? (
+                    <TableRowSubHeader
+                      key={index}
+                      row_item={item}
+                      format={format}
+                      row_index={index}
+                    />
+                  ) : (
+                    <TableRow key={index} row_item={item} row_index={index} />
+                  ),
+                )}
             </tbody>
           </table>
         </div>
