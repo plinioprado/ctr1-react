@@ -50,7 +50,7 @@ function TabList() {
       setfilters(response.filters);
     }
     fetchData();
-  }, [location.href]);
+  }, [location.href, location.key]);
 
   const goto = (e, val) => {
     const url = `/${params.component}/${params.resource}/${val}`;
