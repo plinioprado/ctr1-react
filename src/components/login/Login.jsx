@@ -43,26 +43,29 @@ function Login() {
       <div className="container">
         <div className="login">
           <h2>Login</h2>
-          <label>User</label>
+          <label htmlFor="user_email">User</label>
           <input
             type="text"
             className="form-control"
+            id="user_email"
             name="user_email"
             value={data.user_email}
             onChange={handleChange}
           />
-          <label>Password</label>
+          <label htmlFor="user_pass">Password</label>
           <input
             type="text"
             className="form-control"
+            id="user_pass"
             name="user_pass"
             value={data.user_pass}
             onChange={handleChange}
           />
-          <label>Entity</label>
+          <label htmlFor="entity">Entity</label>
           <input
             type="text"
             className="form-control"
+            id="entity"
             name="entity"
             value={data.entity}
             onChange={handleChange}
