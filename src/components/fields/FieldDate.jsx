@@ -1,10 +1,11 @@
 function FieldText({ data_field, format_field, handleChange }) {
   return (
     <div className={`col-md-${format_field.md}`} key={format_field.name}>
-      <label>{format_field.label}</label>
+      <label htmlFor={format_field.name}>{format_field.label}</label>
       <input
         type="date"
         className="form-control"
+        id={format_field.name}
         name={format_field.name}
         onChange={handleChange}
         readOnly={format_field.readOnly || format_field.primary}
