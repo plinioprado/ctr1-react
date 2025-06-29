@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function FieldAmount({ data_field, format_field, handleChange }) {
+function InputAmount({ data_field, format_field, handleChange }) {
   const formatAmt = (num) => {
     const text = Number(num).toLocaleString("en", {
       minimumFractionDigits: 2,
@@ -77,26 +77,21 @@ function FieldAmount({ data_field, format_field, handleChange }) {
   };
 
   return (
-    <div className={`col-md-${format_field.md}`} key={format_field.name}>
-      {format_field.label !== null && (
-        <label htmlFor={format_field.name}>{format_field.label}</label>
-      )}
-      <input
-        className="form-control"
-        id={format_field.name}
-        name={format_field.name}
-        onBlur={handleAmountChange}
-        onChange={(e) => setAmount(e.target.value)}
-        onFocus={(e) => {
-          setAmount(unformatAmt(e.target.value));
-        }}
-        onKeyDown={handleKeyDown}
-        readOnly={format_field.readOnly}
-        style={{ textAlign: "right" }}
-        value={amount}
-      />
-    </div>
+    <input
+      className="form-control"
+      id={format_field.name}
+      name={format_field.name}
+      onBlur={handleAmountChange}
+      onChange={(e) => setAmount(e.target.value)}
+      onFocus={(e) => {
+        setAmount(unformatAmt(e.target.value));
+      }}
+      onKeyDown={handleKeyDown}
+      readOnly={format_field.readOnly}
+      style={{ textAlign: "right" }}
+      value={amount}
+    />
   );
 }
 
-export default FieldAmount;
+export default InputAmount;
