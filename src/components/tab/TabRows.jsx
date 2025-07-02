@@ -4,6 +4,27 @@ import InputSelect from "../fields/InputSelect";
 import InputText from "../fields/InputText";
 
 function TabRows({ dataRows, formatRows, dataChange }) {
+  const addRow = () => {
+    if (!dataRows || !formatRows) return;
+    let newRow = {};
+    for (const key of Object.keys(dataRows[0])) {
+      newRow[key] = ["integer", "amount"].includes(
+        formatRows.columns.filter((f) => f.name === key)[0].type,
+      )
+        ? 0
+        : "";
+    }
+    dataChange("rows", dataRows.concat(newRow));
+  };
+  const subRow = (e, key) => {
+    if (dataRows.length > 2) {
+      dataChange(
+        "rows",
+        dataRows.filter((row, index) => index !== key),
+      );
+    }
+    e.preventDefault();
+  };
   const rowsHandleChange = (rowKey, dr) => {
     dataChange(
       "rows",
@@ -20,45 +41,45 @@ function TabRows({ dataRows, formatRows, dataChange }) {
 
     return (
       <tr key={rowKey}>
-        {formatRows.columns
-          .filter((format_field) => format_field.type !== "amountdc2")
-          .map((format_field, index) =>
-            format_field.type === "select" ? (
-              <td width={(format_field.md / 12) * 100 + "%"} key={index}>
-                <InputSelect
-                  data_field={dataRow[format_field.name]}
-                  format_field={format_field}
-                  handleChange={rowHandlehange}
-                />
-              </td>
-            ) : format_field.type === "integer" ? (
-              <td width={(format_field.md / 12) * 100 + "%"} key={index}>
-                <InputInteger
-                  data_field={dataRow[format_field.name]}
-                  format_field={format_field}
-                  handleChange={rowHandlehange}
-                />
-              </td>
-            ) : format_field.type === "amount" ? (
-              <td width={(format_field.md / 12) * 100 + "%"} key={index}>
-                <InputAmount
-                  data_field={dataRow[format_field.name]}
-                  format_field={format_field}
-                  handleChange={rowHandlehange}
-                />
-              </td>
-            ) : (
-              <td width={(format_field.md / 12) * 100 + "%"} key={index}>
-                <InputText
-                  data_field={dataRow[format_field.name]}
-                  format_field={format_field}
-                  handleChange={rowHandlehange}
-                />
-              </td>
-            ),
-          )}
+        {formatRows.columns.map((format_field, index) =>
+          format_field.type === "select" ? (
+            <td width={(format_field.md / 12) * 100 + "%"} key={index}>
+              <InputSelect
+                data_field={dataRow[format_field.name]}
+                format_field={format_field}
+                handleChange={rowHandlehange}
+              />
+            </td>
+          ) : format_field.type === "integer" ? (
+            <td width={(format_field.md / 12) * 100 + "%"} key={index}>
+              <InputInteger
+                data_field={dataRow[format_field.name]}
+                format_field={format_field}
+                handleChange={rowHandlehange}
+              />
+            </td>
+          ) : format_field.type === "amount" ? (
+            <td width={(format_field.md / 12) * 100 + "%"} key={index}>
+              <InputAmount
+                data_field={dataRow[format_field.name]}
+                format_field={format_field}
+                handleChange={rowHandlehange}
+              />
+            </td>
+          ) : (
+            <td width={(format_field.md / 12) * 100 + "%"} key={index}>
+              <InputText
+                data_field={dataRow[format_field.name]}
+                format_field={format_field}
+                handleChange={rowHandlehange}
+              />
+            </td>
+          ),
+        )}
         <td>
-          <a href="#">Delete</a>
+          <a href="#" onClick={(e) => subRow(e, rowKey)}>
+            Delete
+          </a>
         </td>
       </tr>
     );
@@ -75,7 +96,9 @@ function TabRows({ dataRows, formatRows, dataChange }) {
               </th>
             ))}
             <th scope="col">
-              <a href="#">Add</a>
+              <a href="#" onClick={addRow}>
+                Add
+              </a>
             </th>
           </tr>
         </thead>
