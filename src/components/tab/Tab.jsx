@@ -93,8 +93,8 @@ function Tab() {
         </div>
       ) : (
         <div className="container">
-          <h2>{format.h2}</h2>
           <div className="col data-form-header">
+            <h2>{format.h2}</h2>
             <button
               className="btn btn-primary"
               type="submit"
