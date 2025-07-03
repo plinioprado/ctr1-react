@@ -11,7 +11,7 @@ function InputAmount({ data_field, format_field, handleChange }) {
 
   const unformatAmt = (txt) => {
     const val = txt.replace(/,/g, "");
-    return val;
+    return val === "0.00" ? "" : val;
   };
 
   const [amount, setAmount] = useState(formatAmt(data_field / 100));
