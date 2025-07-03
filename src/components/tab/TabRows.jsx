@@ -4,7 +4,7 @@ import InputSelect from "../fields/InputSelect";
 import InputText from "../fields/InputText";
 
 function TabRows({ dataRows, formatRows, dataChange }) {
-  const addRow = () => {
+  const addRow = (e) => {
     if (!dataRows || !formatRows) return;
     let newRow = {};
     for (const key of Object.keys(dataRows[0])) {
@@ -15,14 +15,13 @@ function TabRows({ dataRows, formatRows, dataChange }) {
         : "";
     }
     dataChange("rows", dataRows.concat(newRow));
+    e.preventDefault();
   };
   const subRow = (e, key) => {
-    if (dataRows.length > 2) {
-      dataChange(
-        "rows",
-        dataRows.filter((row, index) => index !== key),
-      );
-    }
+    dataChange(
+      "rows",
+      dataRows.filter((_row, index) => index !== key),
+    );
     e.preventDefault();
   };
   const rowsHandleChange = (rowKey, dr) => {
@@ -77,9 +76,11 @@ function TabRows({ dataRows, formatRows, dataChange }) {
           ),
         )}
         <td>
-          <a href="#" onClick={(e) => subRow(e, rowKey)}>
-            Delete
-          </a>
+          {dataRows.length > 2 && (
+            <a href="#" onClick={(e) => subRow(e, rowKey)}>
+              Delete
+            </a>
+          )}
         </td>
       </tr>
     );
