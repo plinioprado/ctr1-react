@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { SessionContext } from "../../SessionContext";
 
+import TabRows from "./TabRows";
 import FieldBoolean from "../fields/FieldBoolean";
 import FielInteger from "../fields/FieldInteger";
 import FieldSelect from "../fields/FieldSelect";
@@ -47,6 +48,13 @@ function Tab() {
 
   const [message, setMessage] = useState("");
 
+  const dataChange = (key, value) => {
+    setData({
+      ...data,
+      [key]: value,
+    });
+  };
+
   const handleChange = (e, val) => {
     // val optional param because e.target.val is always text
     setData({
@@ -85,8 +93,8 @@ function Tab() {
         </div>
       ) : (
         <div className="container">
-          <h2>{format.h2}</h2>
           <div className="col data-form-header">
+            <h2>{format.h2}</h2>
             <button
               className="btn btn-primary"
               type="submit"
@@ -142,6 +150,13 @@ function Tab() {
               ),
             )}
           </div>
+          {data && data.rows && format && (
+            <TabRows
+              dataRows={data.rows}
+              formatRows={format.rows}
+              dataChange={dataChange}
+            />
+          )}
           <div className="data-form-footer">
             {params.id !== "new" && (
               <button

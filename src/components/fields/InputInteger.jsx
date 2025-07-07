@@ -1,25 +1,17 @@
 import { useState } from "react";
 
-function FieldAmount({ data_field, format_field, handleChange }) {
-  const formatAmt = (num) => {
-    const text = Number(num).toLocaleString("en", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-    return text;
-  };
-
+function InputAmount({ data_field, format_field, handleChange }) {
   const unformatAmt = (txt) => {
     const val = txt.replace(/,/g, "");
-    return val;
+    return val === "0" ? "" : val;
   };
 
-  const [amount, setAmount] = useState(formatAmt(data_field / 100));
+  const [amount, setAmount] = useState(data_field);
 
   const handleAmountChange = (e) => {
-    const val = e.target.value;
-    setAmount(formatAmt(val));
-    handleChange(e, val * 100);
+    const val = e.target.value === "" ? 0 : e.target.value;
+    setAmount(val);
+    handleChange(e, val);
   };
 
   const handleKeyDown = (e) => {
@@ -77,26 +69,21 @@ function FieldAmount({ data_field, format_field, handleChange }) {
   };
 
   return (
-    <div className={`col-md-${format_field.md}`} key={format_field.name}>
-      {format_field.label !== null && (
-        <label htmlFor={format_field.name}>{format_field.label}</label>
-      )}
-      <input
-        className="form-control"
-        id={format_field.name}
-        name={format_field.name}
-        onBlur={handleAmountChange}
-        onChange={(e) => setAmount(e.target.value)}
-        onFocus={(e) => {
-          setAmount(unformatAmt(e.target.value));
-        }}
-        onKeyDown={handleKeyDown}
-        readOnly={format_field.readOnly}
-        style={{ textAlign: "right" }}
-        value={amount}
-      />
-    </div>
+    <input
+      className="form-control"
+      id={format_field.name}
+      name={format_field.name}
+      onBlur={handleAmountChange}
+      onChange={(e) => setAmount(e.target.value)}
+      onFocus={(e) => {
+        setAmount(unformatAmt(e.target.value));
+      }}
+      onKeyDown={handleKeyDown}
+      readOnly={format_field.readOnly}
+      style={{ textAlign: "right" }}
+      value={amount}
+    />
   );
 }
 
-export default FieldAmount;
+export default InputAmount;

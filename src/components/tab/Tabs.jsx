@@ -150,7 +150,7 @@ function TabList() {
     };
 
     return (
-      <tr index={row_index}>
+      <tr key={row_index}>
         {format &&
           format.columns.map((col, col_index) => (
             <td
