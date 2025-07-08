@@ -16,6 +16,7 @@ function TabList() {
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
   const [filters, setfilters] = useState({});
+  const [toReload, setToReload] = useState(false);
 
   const getQueryString = () => {
     if (!format || !format.filters || filters == {}) return "";
@@ -50,7 +51,7 @@ function TabList() {
       setfilters(response.filters);
     }
     fetchData();
-  }, [location.href, location.key]);
+  }, [location.href, location.key, toReload]);
 
   const goto = (e, val) => {
     const url = `/${params.component}/${params.resource}/${val}`;
@@ -62,6 +63,7 @@ function TabList() {
     const qString = getQueryString();
     const url = `/${params.component}/${params.resource}${qString}`;
     navigate(url);
+    setToReload(!toReload);
   };
 
   const handleFilterChange = (name, value) => {

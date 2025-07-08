@@ -22,6 +22,7 @@ function Tab() {
 
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
+  const [reload, setReload] = useState(false);
 
   const getUrl = () => {
     const key = session.menu_options
@@ -44,7 +45,7 @@ function Tab() {
       setFormat(response.format);
     }
     fetchData();
-  }, [location.key, params.component, params.resource, params.id]);
+  }, [location.key, params.component, params.resource, params.id, reload]);
 
   const [message, setMessage] = useState("");
 
