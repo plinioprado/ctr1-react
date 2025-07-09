@@ -9,7 +9,7 @@ function InputAmount({ data_field, format_field, handleChange }) {
   const [amount, setAmount] = useState(data_field);
 
   const handleAmountChange = (e) => {
-    const val = e.target.value === "" ? 0 : e.target.value;
+    const val = parseInt(e.target.value === "" ? 0 : e.target.value);
     setAmount(val);
     handleChange(e, val);
   };
