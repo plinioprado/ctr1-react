@@ -1,4 +1,12 @@
-function FieldText({ data_field, format_field, handleChange }) {
+import { useState } from "react";
+
+function FieldDateBlur({ data_field, format_field, handleFilterChange }) {
+  const [value, setValue] = useState(data_field);
+
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className={`col-md-${format_field.md}`} key={format_field.name}>
       <label htmlFor={format_field.name}>{format_field.label}</label>
@@ -7,14 +15,15 @@ function FieldText({ data_field, format_field, handleChange }) {
         className="form-control"
         id={format_field.name}
         name={format_field.name}
-        onChange={handleChange}
+        onChange={onChange}
+        onBlur={() => handleFilterChange(format_field.name, value)}
         readOnly={format_field.readOnly || format_field.primary}
         min={format_field.min}
         max={format_field.max}
-        value={data_field}
+        value={value}
       />
     </div>
   );
 }
 
-export default FieldText;
+export default FieldDateBlur;

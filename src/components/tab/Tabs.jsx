@@ -5,6 +5,9 @@ import { SessionContext } from "../../SessionContext";
 
 import { get } from "../../data/request";
 
+import FieldTextBlur from "../fields/FieldTextBlur";
+import FieldDateBlur from "../fields/FieldDateBlur";
+
 function TabList() {
   const { session } = useContext(SessionContext);
   const params = useParams();
@@ -12,6 +15,22 @@ function TabList() {
 
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
+  const [filters, setfilters] = useState({});
+  const [toReload, setToReload] = useState(false);
+
+  const getQueryString = () => {
+    if (!format || !format.filters || filters == {}) return "";
+
+    let query = "";
+    format.filters.forEach((ff) => {
+      if (!["", null, undefined].includes(filters[ff.name])) {
+        if (query === "") query += "?";
+        else query += "&";
+        query += `${ff.name}=${filters[ff.name] || ""}`;
+      }
+    });
+    return query;
+  };
 
   const getUrl = () => {
     const key = session.menu_options
@@ -24,22 +43,77 @@ function TabList() {
   useEffect(() => {
     async function fetchData() {
       const url = getUrl();
-      const response = await get(url, session.user.api_key, "");
+      const qString = location.search || "";
+      const response = await get(`${url}${qString}`, session.user.api_key, "");
 
       setData(response.data);
       setFormat(response.format);
+      setfilters(response.filters);
     }
     fetchData();
-  }, [location.key, params.component, params.resource, params.id]);
+  }, [location.href, location.key, toReload]);
 
   const goto = (e, val) => {
-    navigate(`/${params.component}/${params.resource}/${val}`);
+    const url = `/${params.component}/${params.resource}/${val}`;
+    navigate(url);
     e.preventDefault();
+  };
+
+  const reload = () => {
+    const qString = getQueryString();
+    const url = `/${params.component}/${params.resource}${qString}`;
+    navigate(url);
+    setToReload(!toReload);
+  };
+
+  const handleFilterChange = (name, value) => {
+    if (!["", null, undefined].includes(value)) {
+      setfilters({
+        ...filters,
+        [name]: value,
+      });
+    } else {
+      const { [name]: _, ...rest } = filters;
+      setfilters(rest);
+    }
   };
 
   function TableHead() {
     return (
       <thead>
+        {format && format.filters && (
+          <tr>
+            <td colSpan={format.columns.length}>
+              <div className="table-filter">
+                {format.filters &&
+                  format.filters.map((format_filter) =>
+                    format_filter.type === "date" ? (
+                      <FieldDateBlur
+                        data_field={filters[format_filter.name] || ""}
+                        format_field={format_filter}
+                        handleFilterChange={handleFilterChange}
+                        key={format_filter.name}
+                      />
+                    ) : (
+                      <FieldTextBlur
+                        data_field={filters[format_filter.name] || ""}
+                        format_field={format_filter}
+                        handleFilterChange={handleFilterChange}
+                        key={format_filter.name}
+                      />
+                    ),
+                  )}
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={reload}
+                >
+                  Reload
+                </button>
+              </div>
+            </td>
+          </tr>
+        )}
         <tr>
           {format &&
             format.columns.map((col, index) => (
@@ -49,6 +123,17 @@ function TabList() {
             ))}
         </tr>
       </thead>
+    );
+  }
+
+  function TableRowSubHeader({ row_item, format, row_index }) {
+    return (
+      <tr index={row_index}>
+        <td colSpan={format.columns.length}>
+          <br />
+          {row_item.row_text}
+        </td>
+      </tr>
     );
   }
 
@@ -67,7 +152,7 @@ function TabList() {
     };
 
     return (
-      <tr index={row_index}>
+      <tr key={row_index}>
         {format &&
           format.columns.map((col, col_index) => (
             <td
@@ -113,8 +198,8 @@ function TabList() {
         </div>
       ) : (
         <div className="container">
-          <h2>{format.h2}</h2>
           <div className="data-table-header">
+            <h2>{format.h2}</h2>
             <button
               type="button"
               className="btn btn-primary"
@@ -127,9 +212,18 @@ function TabList() {
             <TableHead />
             <tbody>
               {data &&
-                data.map((item, index) => (
-                  <TableRow key={index} row_item={item} row_index={index} />
-                ))}
+                data.map((item, index) =>
+                  item.row_type === "sub_header" ? (
+                    <TableRowSubHeader
+                      key={index}
+                      row_item={item}
+                      format={format}
+                      row_index={index}
+                    />
+                  ) : (
+                    <TableRow key={index} row_item={item} row_index={index} />
+                  ),
+                )}
             </tbody>
           </table>
         </div>

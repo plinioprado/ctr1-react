@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { SessionContext } from "../../SessionContext";
 
+import TabRows from "./TabRows";
 import FieldBoolean from "../fields/FieldBoolean";
 import FielInteger from "../fields/FieldInteger";
 import FieldSelect from "../fields/FieldSelect";
@@ -21,6 +22,7 @@ function Tab() {
 
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
+  const [reload, setReload] = useState(false);
 
   const getUrl = () => {
     const key = session.menu_options
@@ -43,9 +45,16 @@ function Tab() {
       setFormat(response.format);
     }
     fetchData();
-  }, [location.key, params.component, params.resource, params.id]);
+  }, [location.key, params.component, params.resource, params.id, reload]);
 
   const [message, setMessage] = useState("");
+
+  const dataChange = (key, value) => {
+    setData({
+      ...data,
+      [key]: value,
+    });
+  };
 
   const handleChange = (e, val) => {
     // val optional param because e.target.val is always text
@@ -85,8 +94,8 @@ function Tab() {
         </div>
       ) : (
         <div className="container">
-          <h2>{format.h2}</h2>
           <div className="col data-form-header">
+            <h2>{format.h2}</h2>
             <button
               className="btn btn-primary"
               type="submit"
@@ -142,6 +151,13 @@ function Tab() {
               ),
             )}
           </div>
+          {data && data.rows && format && (
+            <TabRows
+              dataRows={data.rows}
+              formatRows={format.rows}
+              dataChange={dataChange}
+            />
+          )}
           <div className="data-form-footer">
             {params.id !== "new" && (
               <button

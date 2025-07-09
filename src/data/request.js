@@ -4,10 +4,7 @@ export async function get(path, api_key, qString) {
   const url = `${config.url_base_api}${path}${qString || ""}`;
   const result = await doRequest(url, "GET", api_key);
 
-  return {
-    data: result.data,
-    format: result.format,
-  };
+  return result;
 }
 
 export async function post(qPath, api_key, data) {
@@ -23,7 +20,7 @@ export async function put(path, api_key, data) {
 }
 
 export async function del(path, api_key) {
-  const url = `http://localhost:8000${config.url_base_api}${path}`;
+  const url = `${config.url_base_api}${path}`;
   const result = await doRequest(url, "DELETE", api_key);
   return result;
 }
