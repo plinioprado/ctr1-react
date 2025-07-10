@@ -200,13 +200,15 @@ function TabList() {
         <div className="container">
           <div className="data-table-header">
             <h2>{format.h2}</h2>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={(e) => goto(e, "new")}
-            >
-              Create
-            </button>
+            {format.events && format.events.create && (
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={(e) => goto(e, "new")}
+              >
+                {format.events.create && format.events.create.text}
+              </button>
+            )}
           </div>
           <table className="table">
             <TableHead />
