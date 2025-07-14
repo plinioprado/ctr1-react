@@ -8,7 +8,7 @@ function InputText({ data_field, format_field, handleChange }) {
       name={format_field.name}
       onChange={handleChange}
       pattern={format_field.pattern}
-      readOnly={format_field.readOnly || format_field.primary}
+      readOnly={format_field.read_only}
       required={format_field.required}
       size={format_field.size}
       type={format_field.type}
