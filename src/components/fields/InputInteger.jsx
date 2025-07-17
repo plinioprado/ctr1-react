@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function InputAmount({ data_field, format_field, handleChange }) {
+function InputAmount({ data_field, format_field, handleChange, is_new }) {
   const unformatAmt = (txt) => {
     const val = txt.replace(/,/g, "");
     return val === "0" ? "" : val;
@@ -79,7 +79,7 @@ function InputAmount({ data_field, format_field, handleChange }) {
         setAmount(unformatAmt(e.target.value));
       }}
       onKeyDown={handleKeyDown}
-      readOnly={format_field.readOnly}
+      readOnly={format_field.read_only || (format_field.primary_key && !is_new)}
       style={{ textAlign: "right" }}
       value={amount}
     />
