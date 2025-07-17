@@ -1,4 +1,4 @@
-function FielInteger({ data_field, format_field, handleChange }) {
+function FielInteger({ data_field, format_field, handleChange, is_new }) {
   const handleIntegerChange = (e) => {
     const val = e.target.value;
     handleChange(e, parseInt(val, 10));
@@ -15,6 +15,7 @@ function FielInteger({ data_field, format_field, handleChange }) {
         value={data_field}
         onChange={handleIntegerChange}
         disabled={format_field.primary}
+        is_new={is_new}
         style={{ textAlign: "right" }}
         readOnly={format_field.readOnly}
       />
