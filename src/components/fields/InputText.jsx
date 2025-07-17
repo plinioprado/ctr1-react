@@ -1,5 +1,4 @@
 function InputText({ data_field, format_field, handleChange, is_new }) {
-  console.log(1, is_new, format_field);
   return (
     <input
       className="form-control"
