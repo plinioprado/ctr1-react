@@ -46,6 +46,10 @@ function TabList() {
       const qString = location.search || "";
       const response = await get(`${url}${qString}`, session.user.api_key, "");
 
+      if (data && !Array.isArray(response.data)) {
+        throw new Error("invalid data format in the response");
+      }
+
       setData(response.data);
       setFormat(response.format);
       setfilters(response.filters);
@@ -214,18 +218,26 @@ function TabList() {
             <TableHead />
             <tbody>
               {data &&
-                data.map((item, index) =>
-                  item.row_type === "sub_header" ? (
-                    <TableRowSubHeader
-                      key={index}
-                      row_item={item}
-                      format={format}
-                      row_index={index}
-                    />
-                  ) : (
-                    <TableRow key={index} row_item={item} row_index={index} />
-                  ),
-                )}
+                (data.length === 0 ? (
+                  <tr>
+                    <td colSpan={format.columns.length}>
+                      <p>No records found</p>
+                    </td>
+                  </tr>
+                ) : (
+                  data.map((item, index) =>
+                    item.row_type === "sub_header" ? (
+                      <TableRowSubHeader
+                        key={index}
+                        row_item={item}
+                        format={format}
+                        row_index={index}
+                      />
+                    ) : (
+                      <TableRow key={index} row_item={item} row_index={index} />
+                    ),
+                  )
+                ))}
             </tbody>
           </table>
         </div>
