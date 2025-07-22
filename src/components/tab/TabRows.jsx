@@ -111,6 +111,7 @@ function TabRows({ dataRows, formatRows, dataChange }) {
                 formatRows={formatRows}
                 rowsHandleChange={rowsHandleChange}
                 rowKey={index}
+                key={index}
               />
             ))}
         </tbody>

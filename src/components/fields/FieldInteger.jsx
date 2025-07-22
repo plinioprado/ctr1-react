@@ -1,4 +1,4 @@
-function FielInteger({ data_field, format_field, handleChange, is_new }) {
+function FieldInteger({ data_field, format_field, handleChange, is_new }) {
   const handleIntegerChange = (e) => {
     const val = e.target.value;
     handleChange(e, parseInt(val, 10));
@@ -23,4 +23,4 @@ function FielInteger({ data_field, format_field, handleChange, is_new }) {
   );
 }
 
-export default FielInteger;
+export default FieldInteger;
