@@ -1,9 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 import { SessionContext } from "../../SessionContext";
 
-import TabRows from "./TabRows";
+import TabRows from "./ResourceRows";
 import FieldBoolean from "../fields/FieldBoolean";
 import FielInteger from "../fields/FieldInteger";
 import FieldSelect from "../fields/FieldSelect";
@@ -13,16 +18,22 @@ import FieldDate from "../fields/FieldDate";
 
 import { get, post, put, del } from "../../data/request";
 
-function Tab() {
+function Resource() {
   const { session } = useContext(SessionContext);
 
   const location = useLocation(null);
   const navigate = useNavigate();
   const params = useParams();
+  const [searchParams] = useSearchParams();
+
+  const queryParams = Object.fromEntries(searchParams.entries());
+  const queryParam = Object.keys(queryParams)
+    .map((key) => `${key}=${queryParams[key]}`)
+    .join("&");
+  const queryString = queryParam ? `?${queryParam}` : "";
 
   const [data, setData] = useState(null);
   const [format, setFormat] = useState(null);
-  const [reload, setReload] = useState(false);
 
   const getUrl = () => {
     const key = session.menu_options
@@ -36,7 +47,7 @@ function Tab() {
   useEffect(() => {
     async function fetchData() {
       const response = await get(
-        `${url}/${params.id}`,
+        `${url}/${params.id}${queryString}`,
         session.user.api_key,
         "",
       );
@@ -45,7 +56,7 @@ function Tab() {
       setFormat(response.format);
     }
     fetchData();
-  }, [location.key, params.component, params.resource, params.id, reload]);
+  }, [location.key, params.component, params.resource, params.id]);
 
   const [message, setMessage] = useState("");
 
@@ -185,4 +196,4 @@ function Tab() {
   );
 }
 
-export default Tab;
+export default Resource;

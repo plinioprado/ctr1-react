@@ -5,10 +5,11 @@ import { SessionContext } from "../../SessionContext";
 
 import { get } from "../../data/request";
 
+import ResourcesHeader from "./ResourcesHeader";
 import FieldTextBlur from "../fields/FieldTextBlur";
 import FieldDateBlur from "../fields/FieldDateBlur";
 
-function TabList() {
+function Resources() {
   const { session } = useContext(SessionContext);
   const params = useParams();
   const navigate = useNavigate();
@@ -57,8 +58,9 @@ function TabList() {
     fetchData();
   }, [location.href, location.key, toReload]);
 
-  const goto = (e, val) => {
-    const url = `/${params.component}/${params.resource}/${val}`;
+  const goto = (e, val, query = "") => {
+    const url = `/${params.component}/${params.resource}/${val}${query}`;
+
     navigate(url);
     e.preventDefault();
   };
@@ -202,18 +204,7 @@ function TabList() {
         </div>
       ) : (
         <div className="container">
-          <div className="data-table-header">
-            <h2>{format.h2}</h2>
-            {format.events && format.events.create && (
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) => goto(e, "new")}
-              >
-                {format.events.create && format.events.create.text}
-              </button>
-            )}
-          </div>
+          <ResourcesHeader format={format} goto={goto} />
           <table className="table">
             <TableHead />
             <tbody>
@@ -245,4 +236,4 @@ function TabList() {
     </main>
   );
 }
-export default TabList;
+export default Resources;
