@@ -1,17 +1,19 @@
 function ResourcesHeader({ format, goto }) {
-  const getClickParam = (value) => {
-    return value == "default"
-      ? "new"
-      : `new?${format.events.create.param}=${value}`;
+  const { h2, events } = format;
+  const createEvent = events?.create;
+
+  const getClickParam = (value) =>
+    value === "default" ? "new" : `new?${createEvent.param}=${value}`;
+
+  const handleClick = (e, value) => {
+    e.preventDefault();
+    goto(e, value);
   };
 
   return (
     <div className="data-table-header">
-      <h2>{format.h2}</h2>
-      {format.events &&
-      format.events.create &&
-      format.events.create.type &&
-      format.events.create.type === "dropdown" ? (
+      <h2>{h2}</h2>
+      {createEvent?.type === "dropdown" ? (
         <div className="dropdown">
           <button
             className="btn btn-primary dropdown-toggle"
@@ -19,49 +21,31 @@ function ResourcesHeader({ format, goto }) {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {format.events.create.text}
+            {createEvent.text}
           </button>
           <ul className="dropdown-menu">
-            {format.events.create.options.map((option, index) => (
-              <li key={index}>
+            {createEvent.options.map(({ value, label }, idx) => (
+              <li key={idx}>
                 <a
                   className="dropdown-item"
                   href="#"
-                  onClick={(e) => goto(e, getClickParam(option.value))}
+                  onClick={(e) => handleClick(e, getClickParam(value))}
                 >
-                  {option.label.replace("_", " ")}
+                  {label.replace("_", " ")}
                 </a>
               </li>
             ))}
-            {/* <li>
-              <a class="dropdown-item" href="#">
-                Action
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                Another action
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                Something else here
-              </a>
-            </li> */}
           </ul>
         </div>
-      ) : (
+      ) : createEvent ? (
         <button
           type="button"
           className="btn btn-primary"
-          onClick={(e) => goto(e, "new")}
+          onClick={(e) => handleClick(e, "new")}
         >
-          {format &&
-            format.events &&
-            format.events.create &&
-            format.events.create.text}
+          {createEvent.text}
         </button>
-      )}
+      ) : null}
     </div>
   );
 }
