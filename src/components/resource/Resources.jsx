@@ -5,10 +5,11 @@ import { SessionContext } from "../../SessionContext";
 
 import { get } from "../../data/request";
 
+import ResourcesHeader from "./ResourcesHeader";
 import FieldTextBlur from "../fields/FieldTextBlur";
 import FieldDateBlur from "../fields/FieldDateBlur";
 
-function TabList() {
+function Resources() {
   const { session } = useContext(SessionContext);
   const params = useParams();
   const navigate = useNavigate();
@@ -46,6 +47,10 @@ function TabList() {
       const qString = location.search || "";
       const response = await get(`${url}${qString}`, session.user.api_key, "");
 
+      if (data && !Array.isArray(response.data)) {
+        throw new Error("invalid data format in the response");
+      }
+
       setData(response.data);
       setFormat(response.format);
       setfilters(response.filters);
@@ -53,8 +58,9 @@ function TabList() {
     fetchData();
   }, [location.href, location.key, toReload]);
 
-  const goto = (e, val) => {
-    const url = `/${params.component}/${params.resource}/${val}`;
+  const goto = (e, val, query = "") => {
+    const url = `/${params.component}/${params.resource}/${val}${query}`;
+
     navigate(url);
     e.preventDefault();
   };
@@ -198,34 +204,31 @@ function TabList() {
         </div>
       ) : (
         <div className="container">
-          <div className="data-table-header">
-            <h2>{format.h2}</h2>
-            {format.events && format.events.create && (
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={(e) => goto(e, "new")}
-              >
-                {format.events.create && format.events.create.text}
-              </button>
-            )}
-          </div>
+          <ResourcesHeader format={format} goto={goto} />
           <table className="table">
             <TableHead />
             <tbody>
               {data &&
-                data.map((item, index) =>
-                  item.row_type === "sub_header" ? (
-                    <TableRowSubHeader
-                      key={index}
-                      row_item={item}
-                      format={format}
-                      row_index={index}
-                    />
-                  ) : (
-                    <TableRow key={index} row_item={item} row_index={index} />
-                  ),
-                )}
+                (data.length === 0 ? (
+                  <tr>
+                    <td colSpan={format.columns.length}>
+                      <p>No records found</p>
+                    </td>
+                  </tr>
+                ) : (
+                  data.map((item, index) =>
+                    item.row_type === "sub_header" ? (
+                      <TableRowSubHeader
+                        key={index}
+                        row_item={item}
+                        format={format}
+                        row_index={index}
+                      />
+                    ) : (
+                      <TableRow key={index} row_item={item} row_index={index} />
+                    ),
+                  )
+                ))}
             </tbody>
           </table>
         </div>
@@ -233,4 +236,4 @@ function TabList() {
     </main>
   );
 }
-export default TabList;
+export default Resources;

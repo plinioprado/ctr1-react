@@ -22,6 +22,18 @@ function InputAmount({ data_field, format_field, handleChange }) {
     handleChange(e, val * 100);
   };
 
+  const handleCopy = (e) => {
+    e.preventDefault();
+    e.clipboardData.setData("text/plain", e.target.value);
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData("text/plain");
+    const cleaned = text.replace(/[^0-9.]/g, "").replace(",", "");
+    setAmount(cleaned);
+  };
+
   const handleKeyDown = (e) => {
     // Allow control/navigation keys
     if (
@@ -31,7 +43,11 @@ function InputAmount({ data_field, format_field, handleChange }) {
       e.key === "ArrowRight" ||
       e.key === "Tab" ||
       e.key === "Home" ||
-      e.key === "End"
+      e.key === "End" ||
+      (e.ctrlKey && e.key.toLowerCase() === "c") ||
+      ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "c") ||
+      (e.ctrlKey && e.key.toLowerCase() === "v") ||
+      ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "v")
     ) {
       return;
     }
@@ -83,9 +99,11 @@ function InputAmount({ data_field, format_field, handleChange }) {
       name={format_field.name}
       onBlur={handleAmountChange}
       onChange={(e) => setAmount(e.target.value)}
+      onCopy={handleCopy}
       onFocus={(e) => {
         setAmount(unformatAmt(e.target.value));
       }}
+      onPaste={handlePaste}
       onKeyDown={handleKeyDown}
       readOnly={format_field.readOnly}
       style={{ textAlign: "right" }}

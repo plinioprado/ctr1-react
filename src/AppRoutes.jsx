@@ -4,8 +4,8 @@ import { SessionContext } from "./SessionContext";
 
 import Login from "./components/login/Login";
 import Home from "./components/home/Home";
-import Tabs from "./components/tab/Tabs";
-import Tab from "./components/tab/Tab";
+import Resources from "./components/resource/Resources";
+import Resource from "./components/resource/Resource";
 
 function AppRoutes() {
   const { session } = useContext(SessionContext);
@@ -15,8 +15,8 @@ function AppRoutes() {
       {session ? (
         <>
           <Route path="/home" element={<Home />} />
-          <Route path="/:component/:resource" element={<Tabs />} />
-          <Route path="/:component/:resource/:id" element={<Tab />} />
+          <Route path="/:component/:resource" element={<Resources />} />
+          <Route path="/:component/:resource/:id" element={<Resource />} />
           <Route path="/" element={<Login />} />
         </>
       ) : (

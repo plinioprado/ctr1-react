@@ -3,7 +3,7 @@ import InputInteger from "../fields/InputInteger";
 import InputSelect from "../fields/InputSelect";
 import InputText from "../fields/InputText";
 
-function TabRows({ dataRows, formatRows, dataChange }) {
+function ResourceRows({ dataRows, formatRows, dataChange }) {
   const addRow = (e) => {
     if (!dataRows || !formatRows) return;
     let newRow = {};
@@ -111,6 +111,7 @@ function TabRows({ dataRows, formatRows, dataChange }) {
                 formatRows={formatRows}
                 rowsHandleChange={rowsHandleChange}
                 rowKey={index}
+                key={index}
               />
             ))}
         </tbody>
@@ -119,4 +120,4 @@ function TabRows({ dataRows, formatRows, dataChange }) {
   );
 }
 
-export default TabRows;
+export default ResourceRows;
