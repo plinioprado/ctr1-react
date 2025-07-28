@@ -10,11 +10,14 @@ function FieldSelect({ data_field, format_field, handleChange }) {
         readOnly={format_field.readOnly}
         value={data_field}
       >
-        {format_field.options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        {format_field &&
+          format_field.options &&
+          Array.isArray(format_field.options) &&
+          format_field.options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
       </select>
     </div>
   );
