@@ -172,7 +172,7 @@ function Resources() {
                   : ""
               }
             >
-              {col.primary ? (
+              {col.primary || col.primary_key ? (
                 <a
                   href="#"
                   onClick={(e) => goto(e, data[row_item.row_index][col.name])}
