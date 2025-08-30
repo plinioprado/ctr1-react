@@ -105,7 +105,7 @@ function InputAmount({ data_field, format_field, handleChange }) {
       }}
       onPaste={handlePaste}
       onKeyDown={handleKeyDown}
-      readOnly={format_field.readOnly}
+      readOnly={format_field.read_only}
       style={{ textAlign: "right" }}
       value={amount}
     />

@@ -17,7 +17,7 @@ function FieldDateBlur({ data_field, format_field, handleFilterChange }) {
         name={format_field.name}
         onChange={onChange}
         onBlur={() => handleFilterChange(format_field.name, value)}
-        readOnly={format_field.readOnly || format_field.primary}
+        readOnly={format_field.read_only || format_field.primary_key}
         min={format_field.min}
         max={format_field.max}
         value={value}

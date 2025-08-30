@@ -6,12 +6,12 @@ function InputBoolean({ data_field, format_field, handleChange }) {
       <label htmlFor={format_field.name}>{format_field.label}</label>
       <select
         className="form-select"
-        disabled={format_field.primary}
+        disabled={format_field.primary_key}
         id={format_field.name}
         name={format_field.name}
         onChange={onChange}
         value={data_field}
-        readOnly={format_field.readOnly}
+        readOnly={format_field.read_only}
       >
         <option value="true">Yes</option>
         <option value="false">No</option>

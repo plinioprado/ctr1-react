@@ -145,6 +145,7 @@ function Resource() {
                   data_field={data[format_field.name]}
                   format_field={format_field}
                   handleChange={handleChange}
+                  is_new={params.id === "new"}
                   key={format_field.name}
                 />
               ) : format_field.type === "percentage" ? (

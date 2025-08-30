@@ -8,6 +8,7 @@ import { get } from "../../data/request";
 import ResourcesHeader from "./ResourcesHeader";
 import FieldTextBlur from "../fields/FieldTextBlur";
 import FieldDateBlur from "../fields/FieldDateBlur";
+import FieldSelectBlur from "../fields/FieldSelectBlur";
 
 function Resources() {
   const { session } = useContext(SessionContext);
@@ -98,6 +99,14 @@ function Resources() {
                         data_field={filters[format_filter.name] || ""}
                         format_field={format_filter}
                         handleFilterChange={handleFilterChange}
+                        key={format_filter.name}
+                      />
+                    ) : format_filter.type === "select" ? (
+                      <FieldSelectBlur
+                        data_field={filters[format_filter.name] || ""}
+                        format_field={format_filter}
+                        handleFilterChange={handleFilterChange}
+                        isNameValue={true}
                         key={format_filter.name}
                       />
                     ) : (

@@ -5,7 +5,7 @@ function InputSelect({ data_field, format_field, handleChange }) {
       id={format_field.name}
       name={format_field.name}
       onChange={handleChange}
-      readOnly={format_field.readOnly}
+      readOnly={format_field.read_only}
       value={data_field}
     >
       {format_field.options.map((option) => (
