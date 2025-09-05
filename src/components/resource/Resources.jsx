@@ -8,6 +8,7 @@ import { get } from "../../data/request";
 import ResourcesHeader from "./ResourcesHeader";
 import FieldTextBlur from "../fields/FieldTextBlur";
 import FieldDateBlur from "../fields/FieldDateBlur";
+import FieldSelectBlur from "../fields/FieldSelectBlur";
 
 function Resources() {
   const { session } = useContext(SessionContext);
@@ -100,6 +101,14 @@ function Resources() {
                         handleFilterChange={handleFilterChange}
                         key={format_filter.name}
                       />
+                    ) : format_filter.type === "select" ? (
+                      <FieldSelectBlur
+                        data_field={filters[format_filter.name] || ""}
+                        format_field={format_filter}
+                        handleFilterChange={handleFilterChange}
+                        isNameValue={true}
+                        key={format_filter.name}
+                      />
                     ) : (
                       <FieldTextBlur
                         data_field={filters[format_filter.name] || ""}
@@ -122,11 +131,13 @@ function Resources() {
         )}
         <tr>
           {format &&
-            format.columns.map((col, index) => (
-              <th key={index} scope="col">
-                {col.header}
-              </th>
-            ))}
+            format.columns
+              .filter((col) => col.type !== "hidden")
+              .map((col, index) => (
+                <th key={index} scope="col">
+                  {col.header}
+                </th>
+              ))}
         </tr>
       </thead>
     );
@@ -160,38 +171,40 @@ function Resources() {
     return (
       <tr key={row_index}>
         {format &&
-          format.columns.map((col, col_index) => (
-            <td
-              key={col_index}
-              scope="row"
-              className={
-                col.type == "integer"
-                  ? "integer"
-                  : col.type == "amount"
-                  ? "amount"
-                  : ""
-              }
-            >
-              {col.primary || col.primary_key ? (
-                <a
-                  href="#"
-                  onClick={(e) => goto(e, data[row_item.row_index][col.name])}
-                >
-                  {data[row_item.row_index][col.name]}
-                </a>
-              ) : col.type === "boolean" ? (
-                data[row_item.row_index][col.name] ? (
-                  "Yes"
+          format.columns
+            .filter((col) => col.type !== "hidden")
+            .map((col, col_index) => (
+              <td
+                key={col_index}
+                scope="row"
+                className={
+                  col.type == "integer"
+                    ? "integer"
+                    : col.type == "amount"
+                    ? "amount"
+                    : ""
+                }
+              >
+                {col.primary || col.primary_key ? (
+                  <a
+                    href="#"
+                    onClick={(e) => goto(e, data[row_item.row_index][col.name])}
+                  >
+                    {data[row_item.row_index][col.name]}
+                  </a>
+                ) : col.type === "boolean" ? (
+                  data[row_item.row_index][col.name] ? (
+                    "Yes"
+                  ) : (
+                    "No"
+                  )
+                ) : col.type === "amount" ? (
+                  data && formatAmount(data[row_item.row_index][col.name])
                 ) : (
-                  "No"
-                )
-              ) : col.type === "amount" ? (
-                data && formatAmount(data[row_item.row_index][col.name])
-              ) : (
-                data[row_item.row_index][col.name]
-              )}
-            </td>
-          ))}
+                  data[row_item.row_index][col.name]
+                )}
+              </td>
+            ))}
       </tr>
     );
   }

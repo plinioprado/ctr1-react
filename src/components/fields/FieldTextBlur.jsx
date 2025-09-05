@@ -21,7 +21,10 @@ function FieldTextBlur({ data_field, format_field, handleFilterChange }) {
         onChange={onChange}
         onBlur={() => handleFilterChange(format_field.name, value)}
         pattern={format_field.pattern}
-        readOnly={format_field.readOnly || format_field.primary}
+        readOnly={
+          format_field.read_only ||
+          (format_field.primary_key && value !== "new")
+        }
         type={format_field.type}
         value={value}
       />

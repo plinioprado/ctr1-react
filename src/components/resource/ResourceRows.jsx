@@ -49,6 +49,8 @@ function ResourceRows({ dataRows, formatRows, dataChange }) {
                 handleChange={rowHandlehange}
               />
             </td>
+          ) : format_field.type === "hidden" ? (
+            <></>
           ) : format_field.type === "integer" ? (
             <td width={(format_field.md / 12) * 100 + "%"} key={index}>
               <InputInteger
