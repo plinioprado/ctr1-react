@@ -16,6 +16,7 @@ import FielInteger from "../fields/FieldInteger";
 import FieldPercentage from "../fields/FieldPercentage";
 import FieldSelect from "../fields/FieldSelect";
 import FieldText from "../fields/FieldText";
+import ResourceGrid from "./ResourceGrid";
 
 import { get, post, put, del } from "../../data/request";
 
@@ -180,6 +181,7 @@ function Resource() {
               dataChange={dataChange}
             />
           )}
+          <ResourceGrid data_rows={data} format_grid={format} />
           <div className="data-form-footer">
             {params.id !== "new" && (
               <button
