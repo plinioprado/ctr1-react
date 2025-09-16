@@ -2,7 +2,7 @@ import InputText from "./InputText";
 
 function FieldText({ data_field, format_field, handleChange, is_new }) {
   return (
-    !(data_field.display && data_field.display === false) && (
+    !(format_field.display && format_field.display === false) && (
       <div className={`col-md-${format_field.md}`} key={format_field.name}>
         {format_field.label !== null && (
           <label htmlFor={format_field.name}>{format_field.label}</label>

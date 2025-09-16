@@ -284,3 +284,74 @@ td.integer {
 td.amount {
   text-align: right;
 }
+
+/* content */
+
+.content-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.content-header > :first-child {
+  margin-right: auto;
+}
+
+/* filters */
+
+.filters {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.filters div {
+  padding-left: 0;
+}
+
+.filters div button {
+  margin-left: 0;
+}
+
+/* grid */
+
+.grid {
+  margin-top: 2em;
+  border-top: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.grid .row .col.amount {
+  text-align: right;
+}
+
+.grid .row .col.header {
+  font-weight: bold;
+}
+
+.grid .row .col.integer {
+  text-align: right;
+}
+
+.grid .row .col.percentage {
+  text-align: right;
+}
+
+/* form */
+
+.form {
+  margin-top: 2em;
+}
+
+button {
+  margin-left: 0.5em;
+}
+
+td.date {
+  text-align: right;
+}
+
+td.number {
+  text-align: right;
+}

@@ -12,11 +12,10 @@ import TabRows from "./ResourceRows";
 import FieldAmount from "../fields/FieldAmount";
 import FieldBoolean from "../fields/FieldBoolean";
 import FieldDate from "../fields/FieldDate";
-import FielInteger from "../fields/FieldInteger";
+import FieldInteger from "../fields/FieldInteger";
 import FieldPercentage from "../fields/FieldPercentage";
 import FieldSelect from "../fields/FieldSelect";
 import FieldText from "../fields/FieldText";
-import ResourceGrid from "./ResourceGrid";
 
 import { get, post, put, del } from "../../data/request";
 
@@ -120,7 +119,7 @@ function Resource() {
           <div className="row">
             {format.fields.map((format_field) =>
               format_field.type === "integer" ? (
-                <FielInteger
+                <FieldInteger
                   data_field={data[format_field.name]}
                   format_field={format_field}
                   handleChange={handleChange}
@@ -181,7 +180,6 @@ function Resource() {
               dataChange={dataChange}
             />
           )}
-          <ResourceGrid data_rows={data} format_grid={format} />
           <div className="data-form-footer">
             {params.id !== "new" && (
               <button
