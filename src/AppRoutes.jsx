@@ -17,6 +17,10 @@ function AppRoutes() {
         <>
           <Route path="/home" element={<Home />} />
           <Route
+            path="/resource/:component/:resource"
+            element={<ResourceView />}
+          />
+          <Route
             path="/resource/:component/:resource/:view"
             element={<ResourceView />}
           />
@@ -24,6 +28,7 @@ function AppRoutes() {
             path="/resource/:component/:resource/:view/:id"
             element={<ResourceView />}
           />
+
           <Route path="/:component/:resource" element={<Resources />} />
           <Route path="/:component/:resource/:id" element={<Resource />} />
           <Route path="/" element={<Login />} />

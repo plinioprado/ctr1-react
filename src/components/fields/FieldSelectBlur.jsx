@@ -29,22 +29,6 @@ function FieldSelectBlur({ data_field, format_field, handleFilterChange }) {
             </option>
           ))}
       </select>
-      {/* <input
-        className="form-control" - ok
-        id={format_field.name} - ok
-        minLength={format_field.minlength} - ok
-        maxLength={format_field.maxlength} - ok
-        name={format_field.name} - ok
-        onChange={onChange} - ok
-        onBlur={() => handleFilterChange(format_field.name, value)}
-        pattern={format_field.pattern}
-        readOnly={
-          format_field.read_only ||
-          (format_field.primary_key && value !== "new")
-        }
-        type={format_field.type}
-        value={value}
-      /> */}
     </div>
   );
 }

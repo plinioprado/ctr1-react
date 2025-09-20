@@ -20,11 +20,14 @@ function ResourceGrid({
 
 function ResourceGridHeader({ format_grid }) {
   return (
-    <div className="row">
+    <div className="row grid-header">
       {format_grid.columns
         .filter((f) => f.display !== false)
         .map((column, index) => (
-          <div key={index} className="col header">
+          <div
+            key={index}
+            className={`${column.md ? ` col-md-${column.md}` : "col"}`}
+          >
             {column.label}
           </div>
         ))}
@@ -45,7 +48,7 @@ function ResourceGridRow({ data_row, format_grid, route_url }) {
     primary_key_name === undefined ? undefined : data_row[primary_key_name];
 
   return (
-    <div className="row">
+    <div className="row grid-data">
       {format_grid.columns
         .filter((f) => f.display !== false)
         .map((column, index) => (
@@ -57,6 +60,7 @@ function ResourceGridRow({ data_row, format_grid, route_url }) {
               column.primary_key == true ? primary_key_value : undefined
             }
             route_url={route_url}
+            md={column.md}
           />
         ))}
     </div>
@@ -68,6 +72,7 @@ function ResourceGridCell({
   cell_type,
   primary_key_value,
   route_url,
+  md,
 }) {
   const formatAmount = (val) => {
     let text = "";
@@ -100,8 +105,9 @@ function ResourceGridCell({
       : cell_type == "percentage"
       ? " percentage"
       : "";
+  const col = md ? `col-md-${md}` : "col";
   return (
-    <div className={`col${cell_class}`}>
+    <div className={`${col}${cell_class}`}>
       {primary_key_value === undefined ? (
         value
       ) : (

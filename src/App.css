@@ -320,21 +320,29 @@ td.amount {
   margin-top: 2em;
   border-top: 1px solid #d3d3d3;
   border-bottom: 1px solid #d3d3d3;
+  font-size: 13px;
 }
 
-.grid .row .col.amount {
-  text-align: right;
-}
-
-.grid .row .col.header {
+.grid-header div {
   font-weight: bold;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
-.grid .row .col.integer {
+.grid-data div {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.grid-data div.amount {
   text-align: right;
 }
 
-.grid .row .col.percentage {
+.grid-data div.integer {
+  text-align: right;
+}
+
+.grid-data div.percentage {
   text-align: right;
 }
 
