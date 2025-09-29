@@ -1,8 +1,4 @@
-function ResourceGrid({
-  data_rows,
-  format_grid,
-  route_url = "http://localhost:5173/resource/ctr/security/accounts",
-}) {
+function ResourceGrid({ data_rows, format_grid, format_events }) {
   return (
     <div className="container grid">
       <ResourceGridHeader format_grid={format_grid} />
@@ -11,7 +7,7 @@ function ResourceGrid({
           key={index}
           data_row={data_row}
           format_grid={format_grid}
-          route_url={route_url}
+          format_events={format_events}
         />
       ))}
     </div>
@@ -35,18 +31,13 @@ function ResourceGridHeader({ format_grid }) {
   );
 }
 
-function ResourceGridRow({ data_row, format_grid, route_url }) {
-  const primary_key_value_name = format_grid.columns.find(
-    (col) => col.primary_key_value,
-  )?.name;
-  const primary_key_name =
-    primary_key_value_name !== undefined
-      ? primary_key_value_name
-      : format_grid.columns.find((col) => col.primary_key)?.name;
-
-  const primary_key_value =
-    primary_key_name === undefined ? undefined : data_row[primary_key_name];
-
+function ResourceGridRow({ data_row, format_grid, format_events }) {
+  const getRouteUrl = (name) => {
+    const event = format_events.find((e) => e.name === name);
+    return event
+      ? event.route_url.replace("{value}", data_row[name])
+      : undefined;
+  };
   return (
     <div className="row grid-data">
       {format_grid.columns
@@ -56,10 +47,8 @@ function ResourceGridRow({ data_row, format_grid, route_url }) {
             key={index}
             cell_value={data_row[column.name]}
             cell_type={column.type}
-            primary_key_value={
-              column.primary_key == true ? primary_key_value : undefined
-            }
-            route_url={route_url}
+            primary_key={column.primary_key == true}
+            route_url={getRouteUrl(column.name)}
             md={column.md}
           />
         ))}
@@ -67,13 +56,7 @@ function ResourceGridRow({ data_row, format_grid, route_url }) {
   );
 }
 
-function ResourceGridCell({
-  cell_value,
-  cell_type,
-  primary_key_value,
-  route_url,
-  md,
-}) {
+function ResourceGridCell({ cell_value, cell_type, route_url, md }) {
   const formatAmount = (val) => {
     let text = "";
     if (val !== "" && val !== undefined) {
@@ -108,11 +91,7 @@ function ResourceGridCell({
   const col = md ? `col-md-${md}` : "col";
   return (
     <div className={`${col}${cell_class}`}>
-      {primary_key_value === undefined ? (
-        value
-      ) : (
-        <a href={`${route_url}/${primary_key_value}`}>{primary_key_value}</a>
-      )}
+      {route_url == undefined ? value : <a href={route_url}>{value}</a>}
     </div>
   );
 }

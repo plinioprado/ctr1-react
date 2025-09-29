@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { SessionContext } from "../../SessionContext";
 
-import ResourceFilters from "./Resource_filters";
+import ResourceFilters from "./ResourceFilters";
 import ResourceForm from "./ResourceForm";
 import ResourceGrid from "./ResourceGrid";
 import ResourceHeader from "./ResourceHeader";
@@ -110,7 +110,9 @@ function ResourceView() {
             <ResourceGrid
               data_rows={data_rows}
               format_grid={format.grid}
-              route_url={location.pathname}
+              format_events={format.events.filter(
+                (event) => event.local === "grid",
+              )}
             />
           )}
         </div>
