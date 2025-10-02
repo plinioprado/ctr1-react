@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { SessionContext } from "../../SessionContext";
 
+import HeaderMenu from "./HeaderMenu";
+
 import ctr_logo from "../../assets/ctr_logo.svg";
 
 function Header() {
@@ -13,27 +15,31 @@ function Header() {
     e.preventDefault();
   };
 
-  const menu_1 = session
-    ? session.menu_options.filter((option) =>
-        /^menu_\d+_text$/.test(option.key),
-      )
-    : [];
+  const menuOptions = session ? session.menu_options : [];
 
-  const getMenu2 = (menu_1_key) => {
-    const re = new RegExp("^" + menu_1_key.replace("_text", "-\\d_text$"));
+  //   const menu_1 = session
+  //     ? session.menu_options.filter((option) =>
+  //         /^menu_\d+_text$/.test(option.key),
+  //       )
+  //     : [];
 
-    return session.menu_options.filter((option) => re.test(option.key));
-  };
+  //   const getMenu2 = (menu_1_key) => {
+  //     const re = new RegExp("^" + menu_1_key.replace("_text", "-\\d_text$"));
 
-  const getOptionValue = (key) =>
-    session &&
-    session.menu_options.filter((option) => option.key === key)[0].value;
+  //     return session.menu_options.filter((option) => re.test(option.key));
+  //   };
+
+  //   const getOptionValue = (key) => {
+  //     if (!session || !session.menu_options) return "N/A";
+  //     const item = session.menu_options.filter((option) => option.key === key)[0];
+  //     return item ? item.value : "N/A";
+  //   };
 
   return (
     <header>
       <nav className="navbar navbar-expand-md navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <a className="nav-item navbar-brand" href="#">
             <img src={ctr_logo} alt="Logo" className="header_logo" />
           </a>
           {session && session.menu_options && (
@@ -51,7 +57,7 @@ function Header() {
               </button>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <a
                       className="nav-link active"
                       aria-current="page"
@@ -61,8 +67,8 @@ function Header() {
                     >
                       Home
                     </a>
-                  </li>
-                  {menu_1.map((option1) => {
+                  </li> */}
+                  {/* {menu_1.map((option1) => {
                     return (
                       <li className="nav-item dropdown" key={option1.key}>
                         <a
@@ -97,44 +103,11 @@ function Header() {
                         </ul>
                       </li>
                     );
-                  })}
-                  {/* //   <li className="nav-item dropdown">
-                //     <a
-                //       className="nav-link dropdown-toggle"
-                //       href="#"
-                //       id="navbarDropdownMenuLink"
-                //       role="button"
-                //       data-bs-toggle="dropdown"
-                //       aria-expanded="false"
-                //     >
-                //       Admin
-                //     </a>
-                //     <ul
-                //       className="dropdown-menu"
-                //       aria-labelledby="navbarDropdownMenuLink"
-                //     >
-                //       <li>
-                //         <a
-                //           className="dropdown-item"
-                //           href="#"
-                //           to="/user"
-                //           onClick={handleMenu}
-                //         >
-                //           Users
-                //         </a>
-                //       </li>
-                //       <li>
-                //         <a
-                //           className="dropdown-item"
-                //           href="#"
-                //           to="/setting"
-                //           onClick={handleMenu}
-                //         >
-                //           Settings
-                //         </a>
-                //       </li>
-                //     </ul>
-                //   </li> */}
+                  })} */}
+                  <HeaderMenu
+                    handleMenu={handleMenu}
+                    menuOptions={menuOptions}
+                  />
                   <li className="nav-item ms-auto">
                     <a
                       className="nav-link active"

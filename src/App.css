@@ -363,3 +363,7 @@ td.date {
 td.number {
   text-align: right;
 }
+
+.navbar-expand-md .navbar-nav .nav-link {
+  padding-left: 1em;
+}
