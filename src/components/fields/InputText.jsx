@@ -12,7 +12,7 @@ function InputText({ data_field, format_field, handleChange, is_new }) {
       required={format_field.required}
       size={format_field.size}
       type={format_field.type}
-      value={data_field}
+      value={data_field || ""}
     />
   );
 }

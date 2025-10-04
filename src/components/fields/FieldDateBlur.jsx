@@ -20,7 +20,7 @@ function FieldDateBlur({ data_field, format_field, handleFilterChange }) {
         readOnly={format_field.read_only || format_field.primary_key}
         min={format_field.min}
         max={format_field.max}
-        value={value}
+        value={value || ""}
       />
     </div>
   );

@@ -1,7 +1,6 @@
 import { useRef } from "react";
 
 function HeaderMenu({ handleMenu, menuOptions }) {
-  console.log(menuOptions);
   const getPath = (key) => {
     const option = menuOptions.find(
       (op) => op.key === key.replace("_text", "_path_routing"),
@@ -123,12 +122,10 @@ function MenuDropdown2({ option1, option2, getMenuLevel3, handleMenu }) {
   const submenuRef = useRef(null);
   const menuLevel3 = getMenuLevel3(option1.key, option2.key);
 
-  console.log(11, menuLevel3);
-
   return (
     <li
       className="nav-item dropdown-submenu position-relative"
-      onMouseEnter={() => {
+      onClick={() => {
         const submenu = submenuRef.current;
         if (submenu) submenu.classList.add("show");
       }}
@@ -137,7 +134,11 @@ function MenuDropdown2({ option1, option2, getMenuLevel3, handleMenu }) {
         if (submenu) submenu.classList.remove("show");
       }}
     >
-      <a className="dropdown-item dropdown-toggle " href="#">
+      <a
+        className="dropdown-item dropdown-toggle "
+        href="#"
+        data-bs-auto-close="outside"
+      >
         {option2.text}
       </a>
       <ul

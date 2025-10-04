@@ -13,7 +13,7 @@ function FieldDate({ data_field, format_field, handleChange, is_new }) {
         }
         min={format_field.min}
         max={format_field.max}
-        value={data_field}
+        value={data_field || ""}
       />
     </div>
   );
