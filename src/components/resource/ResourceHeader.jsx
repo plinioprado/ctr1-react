@@ -1,15 +1,15 @@
 import ResourceButtons from "./ResourceButtons";
 
 function ResourceHeader({ format, onNavigate }) {
-  const buttons =
-    format &&
-    format.events &&
-    format.events.filter &&
-    format.events.filter((event) => event.local === "header");
   return (
     <div className="content-header">
       <h2>{format.h2}</h2>
-      {buttons && <ResourceButtons buttons={buttons} onNavigate={onNavigate} />}
+      {format && format.header && format.header.buttons && (
+        <ResourceButtons
+          buttons={format.header.buttons}
+          onNavigate={onNavigate}
+        />
+      )}
     </div>
   );
 }

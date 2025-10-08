@@ -3,18 +3,19 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { SessionContext } from "../../SessionContext";
 
 import ResourceFilters from "./ResourceFilters";
+import ResourceFooter from "./ResourceFooter";
 import ResourceForm from "./ResourceForm";
 import ResourceGrid from "./ResourceGrid";
 import ResourceHeader from "./ResourceHeader";
 
-import { get } from "../../data/request";
+import { get, post, put, del } from "../../data/request";
 
 function ResourceView() {
-  const location = useLocation(null);
   const navigate = useNavigate();
   const params = useParams();
   const session = useContext(SessionContext);
 
+  const [message, setMessage] = useState("");
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState({});
   const [format, setFormat] = useState(null);
@@ -71,8 +72,35 @@ function ResourceView() {
     });
   };
 
+  const onDelete = async (url) => {
+    try {
+      const response = await del(url, session.api_key);
+      setData(response.data);
+    } catch (err) {
+      setMessage(err.message);
+    }
+  };
+
   const onNavigate = (url) => {
     navigate(url);
+  };
+
+  const onPost = async (url) => {
+    try {
+      const response = await post(url, session.api_key, data);
+      setData(response.data);
+    } catch (err) {
+      setMessage(err.message);
+    }
+  };
+
+  const onPut = async (url) => {
+    try {
+      const response = await put(url, session.api_key, data);
+      setData(response.data);
+    } catch (err) {
+      setMessage(err.message);
+    }
   };
 
   const onReload = () => {
@@ -115,8 +143,18 @@ function ResourceView() {
               )}
             />
           )}
+          {format.footer && (
+            <ResourceFooter
+              formatFooter={format.footer}
+              onDelete={onDelete}
+              onNavigate={onNavigate}
+              onPost={onPost}
+              onPut={onPut}
+            />
+          )}
         </div>
       )}
+      <div className="text-error">{message}</div>
     </main>
   );
 }
