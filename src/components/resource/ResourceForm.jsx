@@ -11,15 +11,7 @@ function ResourceForm({ format_fields, data, onDataChange, is_new }) {
     <div className="container form">
       <div className="row">
         {format_fields.map((format_field) =>
-          format_field.type === "integer" ? (
-            <FieldInteger
-              data_field={data[format_field.name]}
-              format_field={format_field}
-              handleChange={onDataChange}
-              is_new={is_new}
-              key={format_field.name}
-            />
-          ) : format_field.type === "amount" ? (
+          format_field.type === "amount" ? (
             <FieldAmount
               data_field={data[format_field.name]}
               format_field={format_field}
@@ -35,6 +27,14 @@ function ResourceForm({ format_fields, data, onDataChange, is_new }) {
             />
           ) : format_field.type === "date" ? (
             <FieldDate
+              data_field={data[format_field.name]}
+              format_field={format_field}
+              handleChange={onDataChange}
+              is_new={is_new}
+              key={format_field.name}
+            />
+          ) : format_field.type === "integer" ? (
+            <FieldInteger
               data_field={data[format_field.name]}
               format_field={format_field}
               handleChange={onDataChange}

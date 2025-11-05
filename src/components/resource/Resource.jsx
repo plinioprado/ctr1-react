@@ -94,7 +94,7 @@ function Resource() {
     }
   }
 
-  const onReturn = async () => {
+  const onButtonClick = async () => {
     navigate(`/${params.component}/${params.resource}`);
   };
 
@@ -111,7 +111,7 @@ function Resource() {
             <button
               className="btn btn-primary"
               type="submit"
-              onClick={onReturn}
+              onClick={onButtonClick}
             >
               Return
             </button>

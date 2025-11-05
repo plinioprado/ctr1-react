@@ -1,3 +1,6 @@
+import ButtonDefault from "../button/ButtonDefault";
+import ButtonDropdown from "../button/ButtonDropdown";
+
 function ResourceButtons({ buttons, onNavigate, onPost, onPut, onDelete }) {
   const onClick = (request_type, request_url) => {
     if (request_type === "route") {
@@ -12,17 +15,29 @@ function ResourceButtons({ buttons, onNavigate, onPost, onPut, onDelete }) {
   };
   return (
     <>
-      {buttons.map((button, index) => (
-        <button
-          key={index}
-          className="btn btn-primary"
-          type="button"
-          onClick={() => onClick(button.request_type, button.request_url)}
-          disabled={button.disabled}
-        >
-          {button.label}
-        </button>
-      ))}
+      {buttons.map((button, index) =>
+        button.options ? (
+          <ButtonDropdown
+            disabled={button.disabled}
+            key={index}
+            label={button.label}
+            onClick={onClick}
+            options={button.options}
+            param={button.param}
+            request_type={button.request_type}
+            request_url={button.request_url}
+          />
+        ) : (
+          <ButtonDefault
+            disabled={button.disabled}
+            key={index}
+            label={button.label}
+            onClick={onClick}
+            request_type={button.request_type}
+            request_url={button.request_url}
+          />
+        ),
+      )}
     </>
   );
 }

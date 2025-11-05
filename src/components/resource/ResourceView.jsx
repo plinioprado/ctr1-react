@@ -12,6 +12,7 @@ import { get, post, put, del } from "../../data/request";
 
 function ResourceView() {
   const navigate = useNavigate();
+  const urlSearch = useLocation().search;
   const params = useParams();
   const session = useContext(SessionContext);
 
@@ -22,6 +23,7 @@ function ResourceView() {
   const [reload, setReload] = useState(false);
 
   const getQueryString = () => {
+    if (urlSearch && urlSearch !== "") return urlSearch;
     if (!format || !format.filters || filters == {}) return "";
     let query = "";
     format.filters.forEach((ff) => {
