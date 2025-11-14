@@ -7,7 +7,7 @@ function ResourceGridRow({ data_row, format_grid, format_events }) {
       ? event.route_url.replace("{value}", data_row[name])
       : undefined;
   };
-  console.log(101, format_grid);
+
   return (
     <div className="row grid-data">
       {format_grid.columns

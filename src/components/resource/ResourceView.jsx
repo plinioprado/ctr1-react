@@ -4,7 +4,7 @@ import { SessionContext } from "../../SessionContext";
 
 import ResourceFilters from "./ResourceFilters";
 import ResourceFooter from "./ResourceFooter";
-import ResourceForm from "./ResourceForm";
+import ResourceOne from "./ResourceOne";
 import ResourceGrid from "./ResourceGrid";
 import ResourceHeader from "./ResourceHeader";
 
@@ -111,8 +111,6 @@ function ResourceView() {
 
   const data_rows = data && Array.isArray(data) ? data : [];
 
-  console.log(1, format);
-
   return (
     <main>
       {!data || !format ? (
@@ -130,9 +128,9 @@ function ResourceView() {
               onReload={onReload}
             />
           )}
-          {format.fields && (
-            <ResourceForm
-              format_fields={format.fields}
+          {format.one && (
+            <ResourceOne
+              format_one={format.one}
               data={data}
               is_new={false}
               onDataChange={onDataChange}

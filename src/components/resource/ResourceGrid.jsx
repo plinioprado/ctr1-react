@@ -1,7 +1,6 @@
 import ResourceGridRow from "./ResourceGridRow.jsx";
 
 function ResourceGrid({ data_rows, format_grid, format_events }) {
-  console.log(1, format_grid);
   return (
     <div className="container grid">
       <ResourceGridHeader format_grid={format_grid} />
