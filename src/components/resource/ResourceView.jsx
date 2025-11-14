@@ -111,6 +111,8 @@ function ResourceView() {
 
   const data_rows = data && Array.isArray(data) ? data : [];
 
+  console.log(1, format);
+
   return (
     <main>
       {!data || !format ? (
