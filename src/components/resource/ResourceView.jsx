@@ -131,6 +131,7 @@ function ResourceView() {
           {format.one && (
             <ResourceOne
               format_one={format.one}
+              format_options={format.options}
               data={data}
               is_new={false}
               onDataChange={onDataChange}

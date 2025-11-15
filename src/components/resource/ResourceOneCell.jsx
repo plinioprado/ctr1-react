@@ -6,7 +6,13 @@ import FieldPercentage from "../fields/FieldPercentage";
 import FieldSelect from "../fields/FieldSelect";
 import FieldText from "../fields/FieldText";
 
-function ResourceOneCell({ format_field, data, onDataChange, is_new }) {
+function ResourceOneCell({
+  format_field,
+  format_options,
+  data,
+  onDataChange,
+  is_new,
+}) {
   return (
     <>
       {format_field.type &&
@@ -50,7 +56,9 @@ function ResourceOneCell({ format_field, data, onDataChange, is_new }) {
         ) : format_field.type === "select" ? (
           <FieldSelect
             data_field={data[format_field.name]}
+            data_type={data.type}
             format_field={format_field}
+            format_options={format_options}
             handleChange={onDataChange}
             key={format_field.name}
           />

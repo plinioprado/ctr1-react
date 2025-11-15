@@ -48,7 +48,7 @@ function InputInteger({ data_field, format_field, handleChange, is_new }) {
       onKeyDown={handleKeyDown}
       readOnly={format_field.read_only || (format_field.primary_key && !is_new)}
       style={{ textAlign: "right" }}
-      value={integer}
+      value={integer === null ? "" : integer}
     />
   );
 }

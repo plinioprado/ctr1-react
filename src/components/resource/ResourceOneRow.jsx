@@ -1,7 +1,13 @@
 import ResourceOneCell from "./ResourceOneCell";
 import ResourceOneRows from "./ResourceOneRows";
 
-function ResourceOne({ format_one_row, data, onDataChange, is_new }) {
+function ResourceOne({
+  format_one_row,
+  format_options,
+  data,
+  onDataChange,
+  is_new,
+}) {
   return (
     <div className="row">
       {format_one_row.map((format_field) =>
@@ -9,6 +15,7 @@ function ResourceOne({ format_one_row, data, onDataChange, is_new }) {
           <ResourceOneRows
             key={format_field.name}
             format_rows={format_field}
+            format_options={format_options}
             data={data}
             onDataChange={onDataChange}
             is_new={is_new}
