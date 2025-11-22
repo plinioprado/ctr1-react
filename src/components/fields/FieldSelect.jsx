@@ -11,7 +11,7 @@ function FieldSelect({
       return format_options[data_type] || [];
     }
     if (Array.isArray(format_field.options)) return format_field.options;
-    return [];
+    return format_options[format_field.name] || [];
   };
 
   const options = getOptions();
