@@ -74,17 +74,18 @@ function ResourceView() {
     });
   };
 
-  const onDelete = async (url) => {
+  const onDelete = async (request_url, route_url) => {
     try {
-      const response = await del(url, session.api_key);
-      setData(response.data);
+      //const url_delete = request_url.replace("{id}", params.id);
+      //const response = await del(request_url, session.api_key);
+      navigate(route_url);
     } catch (err) {
       setMessage(err.message);
     }
   };
 
-  const onNavigate = (url) => {
-    navigate(url);
+  const onNavigate = (route_url) => {
+    navigate(route_url);
   };
 
   const onPost = async (url) => {

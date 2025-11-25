@@ -3,9 +3,10 @@ function ButtonDropdown({
   label,
   onClick,
   options,
-  param,
   request_type,
   request_url,
+  route_param,
+  route_url,
 }) {
   return (
     <div className="dropdown">
@@ -25,9 +26,12 @@ function ButtonDropdown({
               className="dropdown-item"
               href=""
               onClick={() =>
-                onClick(request_type, `${request_url}?${param}=${value}`)
+                onClick(
+                  request_type,
+                  request_url,
+                  `${route_url}?${route_param}=${value}`,
+                )
               }
-              // todo: remove the '#' after the link
             >
               {label.replace("_", " ")}
             </a>
