@@ -16,12 +16,13 @@ function ResourceOneRow({
         format_one_row.map((format_field) =>
           format_field.type === "rows" ? (
             <ResourceOneRows
+              data={data}
+              data_rows_name={format_field.name}
               key={format_field.name}
               format_rows={format_field}
               format_options={format_options}
-              data={data}
-              onDataChange={onDataChange}
               is_new={is_new}
+              onDataChange={onDataChange}
             />
           ) : (
             <ResourceOneCell
