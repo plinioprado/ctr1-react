@@ -76,8 +76,8 @@ function ResourceView() {
 
   const onDelete = async (request_url, route_url) => {
     try {
-      //const url_delete = request_url.replace("{id}", params.id);
-      //const response = await del(request_url, session.api_key);
+      const url_delete = request_url.replace("{id}", params.id);
+      await del(url_delete, session.api_key);
       navigate(route_url);
     } catch (err) {
       setMessage(err.message);
