@@ -4,7 +4,7 @@ import ButtonDropdown from "../button/ButtonDropdown";
 function ResourceButtons({ buttons, onNavigate, onPost, onPut, onDelete }) {
   const onClick = (request_type, request_url, route_url) => {
     if (request_type === "post") {
-      onPost(request_url);
+      onPost(request_url, route_url);
     } else if (request_type === "put") {
       onPut(request_url);
     } else if (request_type === "delete") {

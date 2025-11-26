@@ -88,10 +88,11 @@ function ResourceView() {
     navigate(route_url);
   };
 
-  const onPost = async (url) => {
+  const onPost = async (request_url, route_url) => {
     try {
-      const response = await post(url, session.api_key, data);
+      const response = await post(request_url, session.api_key, data);
       setData(response.data);
+      navigate(route_url);
     } catch (err) {
       setMessage(err.message);
     }
