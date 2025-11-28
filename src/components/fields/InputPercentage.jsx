@@ -103,6 +103,7 @@ function InputPercentage({ data_field, format_field, handleChange }) {
   return (
     <input
       className="form-control"
+      disabled={format_field.disabled || false}
       id={format_field.name}
       name={format_field.name}
       onBlur={handleAmountChange}

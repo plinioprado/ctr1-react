@@ -28,6 +28,7 @@ function ResourceOneRow({
             <ResourceOneCell
               key={format_field.name}
               format_field={format_field}
+              format_options={format_options}
               data={data}
               onDataChange={onDataChange}
               is_new={is_new}

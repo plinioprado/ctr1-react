@@ -6,7 +6,7 @@ function ResourceButtons({ buttons, onNavigate, onPost, onPut, onDelete }) {
     if (request_type === "post") {
       onPost(request_url, route_url);
     } else if (request_type === "put") {
-      onPut(request_url);
+      onPut(request_url, route_url);
     } else if (request_type === "delete") {
       onDelete(request_url, route_url);
     } else {

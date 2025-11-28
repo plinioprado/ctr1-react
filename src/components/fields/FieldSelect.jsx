@@ -26,7 +26,7 @@ function FieldSelect({
         id={format_field.name}
         name={format_field.name}
         onChange={handleChange}
-        readOnly={format_field.read_only}
+        disabled={format_field.disabled || false}
         value={data_field}
       >
         {options.map((option) => (

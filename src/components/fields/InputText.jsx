@@ -2,6 +2,7 @@ function InputText({ data_field, format_field, handleChange, is_new }) {
   return (
     <input
       className="form-control"
+      disabled={format_field.disabled || false}
       id={format_field.name}
       minLength={format_field.min_length}
       maxLength={format_field.max_length}

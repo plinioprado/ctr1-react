@@ -6,7 +6,7 @@ function InputBoolean({ data_field, format_field, handleChange }) {
       <label htmlFor={format_field.name}>{format_field.label}</label>
       <select
         className="form-select"
-        disabled={format_field.primary_key}
+        disabled={format_field.primary_key || format_field.disabled || false}
         id={format_field.name}
         name={format_field.name}
         onChange={onChange}
