@@ -129,9 +129,11 @@ function MenuDropdown2({ option1, option2, getMenuLevel3, handleMenu }) {
         const submenu = submenuRef.current;
         if (submenu) submenu.classList.add("show");
       }}
-      onMouseLeave={() => {
-        const submenu = submenuRef.current;
-        if (submenu) submenu.classList.remove("show");
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+          const submenu = submenuRef.current;
+          if (submenu) submenu.classList.remove("show");
+        }
       }}
     >
       <a
