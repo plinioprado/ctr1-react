@@ -2,7 +2,7 @@ import ResourceGridRow from "./ResourceGridRow.jsx";
 
 function ResourceGrid({ data_rows, format_grid, format_events }) {
   return (
-    <div className="container grid">
+    <div className="container-fluid grid">
       <ResourceGridHeader format_grid={format_grid} />
       {data_rows.map((data_row, index) => (
         <ResourceGridRow

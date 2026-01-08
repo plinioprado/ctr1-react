@@ -144,9 +144,11 @@ function ResourceView() {
             <ResourceGrid
               data_rows={data_rows}
               format_grid={format.grid}
-              format_events={format.events.filter(
-                (event) => event.local === "grid",
-              )}
+              format_events={
+                format.events
+                  ? format.events.filter((event) => event.local === "grid")
+                  : []
+              }
             />
           )}
           {format.footer && (

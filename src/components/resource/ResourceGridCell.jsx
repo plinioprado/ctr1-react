@@ -33,7 +33,11 @@ function ResourceGridCell({ cell_value, cell_type, route_url, md }) {
   const col = md ? `col-md-${md}` : "col";
   return (
     <div className={`${col}${cell_class}`}>
-      {route_url == undefined ? value : <a href={route_url}>{value}</a>}
+      {route_url == undefined ? (
+        value
+      ) : (
+        <a href={"/" + route_url.replace("{value}", cell_value)}>{value}</a>
+      )}
     </div>
   );
 }
