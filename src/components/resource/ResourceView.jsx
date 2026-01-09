@@ -140,10 +140,10 @@ function ResourceView() {
               onDataChange={onDataChange}
             />
           )}
-          {format.grid && (
+          {format.many && (
             <ResourceGrid
               data_rows={data_rows}
-              format_grid={format.grid}
+              format_grid={format.many}
               format_events={
                 format.events
                   ? format.events.filter((event) => event.local === "grid")

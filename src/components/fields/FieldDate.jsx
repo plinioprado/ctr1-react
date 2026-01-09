@@ -1,7 +1,7 @@
 function FieldDate({ data_field, format_field, handleChange, is_new }) {
   return (
     <div className={`col-md-${format_field.md}`} key={format_field.name}>
-      <label htmlFor={format_field.name}>{format_field.label}.</label>
+      <label htmlFor={format_field.name}>{format_field.label}</label>
       <input
         type="date"
         className="form-control"
