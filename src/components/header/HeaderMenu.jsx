@@ -155,17 +155,25 @@ function MenuDropdown2({ option1, option2, getMenuLevel3, handleMenu }) {
           boxShadow: "0 0.5rem 1rem rgba(0,0,0,0.15)",
         }}
       >
-        {menuLevel3.map((option3) => (
-          <MenuItem
-            handleMenu={handleMenu}
-            path={option3.path}
-            text={option3.text}
-            key={option3.key}
-          />
-        ))}
+        {menuLevel3.map((option3) =>
+          option3.text === "{dropdown-divider}" ? (
+            <li key={option3.key}>
+              <hr className="dropdown-divider" />
+            </li>
+          ) : (
+            <MenuItem
+              handleMenu={handleMenu}
+              path={option3.path}
+              text={option3.text}
+              key={option3.key}
+            />
+          ),
+        )}
       </ul>
     </li>
   );
 }
+
+//<li><hr class="dropdown-divider"></li>
 
 export default HeaderMenu;
