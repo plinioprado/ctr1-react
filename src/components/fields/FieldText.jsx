@@ -12,6 +12,7 @@ function FieldText({ data_field, format_field, handleChange, is_new }) {
           format_field={format_field}
           handleChange={handleChange}
           is_new={is_new}
+          disabled={format_field.disabled}
         />
       </div>
     )

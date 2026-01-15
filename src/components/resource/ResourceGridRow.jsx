@@ -18,7 +18,9 @@ function ResourceGridRow({ data_row, format_grid, format_events }) {
             cell_value={data_row[column.name]}
             cell_type={column.type}
             primary_key={column.primary_key == true}
-            route_url={column.href || getRouteUrl(column.name)}
+            route_url={
+              column.route_url || column.href || getRouteUrl(column.name)
+            }
             md={column.md}
           />
         ))}
