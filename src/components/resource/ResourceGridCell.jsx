@@ -20,6 +20,10 @@ function ResourceGridCell({ cell_value, cell_type, route_url, md }) {
       ? formatAmount(cell_value)
       : cell_type == "percentage"
       ? formatPercentage(cell_value)
+      : cell_type == "boolean"
+      ? cell_value
+        ? "Yes"
+        : "No"
       : cell_value;
 
   const cell_class =
