@@ -11,6 +11,7 @@ function FieldDate({ data_field, format_field, handleChange, is_new }) {
         readOnly={
           format_field.read_only || (format_field.primary_key && !is_new)
         }
+        disabled={format_field.disabled}
         min={format_field.min}
         max={format_field.max}
         value={data_field || ""}
