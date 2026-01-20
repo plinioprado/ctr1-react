@@ -1,4 +1,4 @@
-function ResourceGridCell({ cell_value, cell_type, route_url, md }) {
+function ResourceGridCell({ value_cell, format_cell, route_url }) {
   const formatAmount = (val) => {
     let text = "";
     if (val !== "" && val !== undefined) {
@@ -16,33 +16,37 @@ function ResourceGridCell({ cell_value, cell_type, route_url, md }) {
   };
 
   const value =
-    cell_type == "amount"
-      ? formatAmount(cell_value)
-      : cell_type == "percentage"
-      ? formatPercentage(cell_value)
-      : cell_type == "boolean"
-      ? cell_value
+    format_cell.type == "amount"
+      ? formatAmount(value_cell)
+      : format_cell.type == "percentage"
+      ? formatPercentage(value_cell)
+      : format_cell.type == "boolean"
+      ? value_cell
         ? "Yes"
         : "No"
-      : cell_value;
+      : value_cell;
 
   const cell_class =
-    cell_type == "integer"
+    format_cell.type == "integer"
       ? " integer"
-      : cell_type == "amount"
+      : format_cell.type == "amount"
       ? " amount"
-      : cell_type == "percentage"
+      : format_cell.type == "percentage"
       ? " percentage"
       : "";
-  const col = md ? `col-md-${md}` : "col";
+  const col = format_cell.md ? `col-md-${format_cell.md}` : "col";
   return (
-    <div className={`${col}${cell_class}`}>
-      {route_url == undefined ? (
-        value
-      ) : (
-        <a href={"/" + route_url.replace("{value}", cell_value)}>{value}</a>
+    <>
+      {format_cell.display !== "none" && (
+        <div className={`${col}${cell_class}`}>
+          {route_url == undefined ? (
+            value
+          ) : (
+            <a href={"/" + route_url}>{value}</a>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }
 

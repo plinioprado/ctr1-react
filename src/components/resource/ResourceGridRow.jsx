@@ -1,25 +1,36 @@
 import ResourceGridCell from "./ResourceGridCell.jsx";
 
 function ResourceGridRow({ data_row, format_grid, format_events }) {
-  const getRouteUrl = (name) => {
-    const event = format_events.find((e) => e.name === name);
-    return event
-      ? event.route_url.replace("{value}", data_row[name])
-      : undefined;
+  // route_url calculated here because it may reffer to other data in the row
+
+  const getRouteUrl = (format_cell, data_cell) => {
+    if (format_cell.route_url) {
+      let route_url = format_cell.route_url.replace("{value}", data_cell);
+
+      for (const fc of format_grid.columns) {
+        route_url = route_url.replace(`{${fc.name}}`, data_row[fc.name]);
+      }
+      return route_url;
+    }
+
+    const event = format_events.find((e) => e.name === format_cell.name);
+    if (event) return event.route_url.replace("{value}", data_row[data_cell]);
+
+    return undefined;
   };
 
   return (
     <div className="row grid-data">
       {format_grid.columns
-        .filter((f) => f.display !== false)
-        .map((column, index) => (
+        .filter((f) => f.display !== false && f.display !== "none")
+        .map((format_cell, index) => (
           <ResourceGridCell
             key={index}
-            cell_value={data_row[column.name]}
-            cell_type={column.type}
-            primary_key={column.primary_key === true}
-            route_url={column.route_url || getRouteUrl(column.name)}
-            md={column.md}
+            value_cell={data_row[format_cell.name]}
+            format_cell={format_cell}
+            primary_key={format_cell.primary_key === true}
+            route_url={getRouteUrl(format_cell, data_row[format_cell.name])}
+            md={format_cell.md}
           />
         ))}
     </div>

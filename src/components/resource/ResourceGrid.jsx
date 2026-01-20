@@ -20,7 +20,7 @@ function ResourceGridHeader({ format_grid }) {
   return (
     <div className="row grid-header">
       {format_grid.columns
-        .filter((f) => f.display !== false)
+        .filter((f) => f.display !== false && f.display !== "none")
         .map((column, index) => (
           <div
             key={index}
