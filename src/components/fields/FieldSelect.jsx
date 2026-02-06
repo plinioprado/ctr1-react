@@ -7,6 +7,12 @@ function FieldSelect({
 }) {
   const getOptions = () => {
     if (!format_field || !format_field.options) return [];
+    if (
+      typeof format_field.options === "string" &&
+      format_options[format_field.options] !== undefined
+    ) {
+      return format_options[format_field.options];
+    }
     if (format_field.options === "data_type") {
       return format_options[data_type] || [];
     }
@@ -15,9 +21,10 @@ function FieldSelect({
   };
 
   const options = getOptions();
+  const divClass = `col-md-${format_field.md}${data_field === null ? " invisible" : ""}`;
 
   return (
-    <div className={`col-md-${format_field.md}`} key={format_field.name}>
+    <div className={divClass} key={format_field.name}>
       {format_field.label !== null && (
         <label htmlFor={format_field.name}>{format_field.label}</label>
       )}

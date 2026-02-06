@@ -1,8 +1,10 @@
 import InputPercentage from "./InputPercentage";
 
 function FieldPercentage({ data_field, format_field, handleChange }) {
+  const divClass = `col-md-${format_field.md}${data_field === null ? " invisible" : ""}`;
+
   return (
-    <div className={`col-md-${format_field.md}`} key={format_field.name}>
+    <div className={divClass} key={format_field.name}>
       <label htmlFor={format_field.name}>{format_field.label}</label>
       <div className="input-group">
         <InputPercentage

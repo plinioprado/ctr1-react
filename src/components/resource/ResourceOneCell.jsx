@@ -1,4 +1,5 @@
 import FieldAmount from "../fields/FieldAmount";
+import FieldBlank from "../fields/FieldBlank";
 import FieldBoolean from "../fields/FieldBoolean";
 import FieldDate from "../fields/FieldDate";
 import FieldInteger from "../fields/FieldInteger";
@@ -16,7 +17,9 @@ function ResourceOneCell({
   return (
     <>
       {format_field.type &&
-        (format_field.type === "amount" ? (
+        (format_field.type === "blank" ? (
+          <FieldBlank format_field={format_field} key={format_field.name} />
+        ) : format_field.type === "amount" ? (
           <FieldAmount
             data_field={data[format_field.name]}
             format_field={format_field}
