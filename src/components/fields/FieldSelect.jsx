@@ -1,3 +1,5 @@
+import InputSelect from "./InputSelect";
+
 function FieldSelect({
   data_field,
   data_type = null,
@@ -28,20 +30,12 @@ function FieldSelect({
       {format_field.label !== null && (
         <label htmlFor={format_field.name}>{format_field.label}</label>
       )}
-      <select
-        className="form-select"
-        id={format_field.name}
-        name={format_field.name}
-        onChange={handleChange}
-        disabled={format_field.disabled || false}
-        value={data_field}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <InputSelect
+        data_field={data_field}
+        format_field={format_field}
+        handleChange={handleChange}
+        options={options}
+      />
     </div>
   );
 }

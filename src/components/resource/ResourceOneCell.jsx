@@ -1,4 +1,5 @@
 import FieldAmount from "../fields/FieldAmount";
+import FieldAmountTbd from "../fields/FieldAmountTbd";
 import FieldBlank from "../fields/FieldBlank";
 import FieldBoolean from "../fields/FieldBoolean";
 import FieldDate from "../fields/FieldDate";
@@ -21,6 +22,13 @@ function ResourceOneCell({
           <FieldBlank format_field={format_field} key={format_field.name} />
         ) : format_field.type === "amount" ? (
           <FieldAmount
+            data_field={data[format_field.name]}
+            format_field={format_field}
+            handleChange={onDataChange}
+            key={format_field.name}
+          />
+        ) : format_field.type === "amount_tbd" ? (
+          <FieldAmountTbd
             data_field={data[format_field.name]}
             format_field={format_field}
             handleChange={onDataChange}

@@ -1,4 +1,10 @@
-function InputSelect({ data_field, format_field, handleChange }) {
+function InputSelect({
+  data_field,
+  format_field,
+  handleChange,
+  options = null,
+}) {
+  const select_options = options || format_field.options;
   return (
     <select
       className="form-select"
@@ -8,7 +14,7 @@ function InputSelect({ data_field, format_field, handleChange }) {
       onChange={handleChange}
       value={data_field}
     >
-      {format_field.options.map((option) => (
+      {select_options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}
         </option>
