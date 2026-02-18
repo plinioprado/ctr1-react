@@ -5,7 +5,7 @@ import { SessionContext } from "../../SessionContext";
 import ResourceFilters from "./ResourceFilters";
 import ResourceFooter from "./ResourceFooter";
 import ResourceOne from "./ResourceOne";
-import ResourceGrid from "./ResourceGrid";
+import ResourceMany from "./ResourceMany";
 import ResourceHeader from "./ResourceHeader";
 
 import { get, post, put, del } from "../../data/request";
@@ -48,12 +48,16 @@ function ResourceView() {
 
   useEffect(() => {
     async function fetchData() {
-      const url = getRestUrl();
-      const response = await get(url, session.api_key, "");
+      try {
+        const url = getRestUrl();
+        const response = await get(url, session.api_key, "");
 
-      setData(response.data);
-      setFilters(response.filters);
-      setFormat(response.format);
+        setData(response.data);
+        setFilters(response.filters);
+        setFormat(response.format);
+      } catch (error) {
+        setMessage(error.message);
+      }
     }
     fetchData();
   }, [params, reload]);
@@ -141,7 +145,7 @@ function ResourceView() {
             />
           )}
           {format.many && (
-            <ResourceGrid
+            <ResourceMany
               data_rows={data_rows}
               format_grid={format.many}
               format_events={

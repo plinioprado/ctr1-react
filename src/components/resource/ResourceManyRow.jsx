@@ -1,6 +1,6 @@
-import ResourceGridCell from "./ResourceGridCell.jsx";
+import ResourceManyCell from "./ResourceManyCell.jsx";
 
-function ResourceGridRow({ data_row, format_grid, format_events }) {
+function ResourceManyRow({ data_row, format_grid, format_events }) {
   // route_url calculated here because it may reffer to other data in the row
 
   const getRouteUrl = (format_cell, data_cell) => {
@@ -24,7 +24,7 @@ function ResourceGridRow({ data_row, format_grid, format_events }) {
       {format_grid.columns
         .filter((f) => f.display !== false && f.display !== "none")
         .map((format_cell, index) => (
-          <ResourceGridCell
+          <ResourceManyCell
             key={index}
             value_cell={data_row[format_cell.name]}
             format_cell={format_cell}
@@ -37,4 +37,4 @@ function ResourceGridRow({ data_row, format_grid, format_events }) {
   );
 }
 
-export default ResourceGridRow;
+export default ResourceManyRow;
