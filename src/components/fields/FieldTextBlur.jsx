@@ -15,8 +15,8 @@ function FieldTextBlur({ data_field, format_field, handleFilterChange }) {
       <input
         className="form-control"
         id={format_field.name}
-        minLength={format_field.minlength}
-        maxLength={format_field.maxlength}
+        minLength={format_field.minLength}
+        maxLength={format_field.maxLength}
         name={format_field.name}
         onChange={onChange}
         onBlur={() => handleFilterChange(format_field.name, value)}

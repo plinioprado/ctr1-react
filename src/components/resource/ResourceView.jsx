@@ -49,6 +49,7 @@ function ResourceView() {
   useEffect(() => {
     async function fetchData() {
       try {
+        setMessage("");
         const url = getRestUrl();
         const response = await get(url, session.api_key, "");
 
