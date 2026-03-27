@@ -155,6 +155,18 @@ main.login .container form {
   border-color: red;
 }
 
+.form-control.is-invalid {
+  background-image: none !important;
+  padding-right: 0.75rem;
+}
+
+.was-validated .form-select:invalid,
+.form-select.is-invalid {
+  background-image: var(
+    --bs-form-select-bg-img
+  ) !important; /* keep normal arrow only */
+}
+
 .login button {
   margin-top: 1rem;
   width: 100%;
@@ -185,9 +197,9 @@ input.fieldnumber {
   text-align: right;
 }
 
-input:invalid {
+/* input:invalid {
   border-color: red;
-}
+} */
 
 .text-error {
   color: red;

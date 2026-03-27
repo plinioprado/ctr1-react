@@ -7,7 +7,7 @@ function InputSelect({
   const select_options = options || format_field.options;
   return (
     <select
-      className="form-select"
+      className={`form-select ${format_field.required && !data_field ? "is-invalid" : ""}`}
       disabled={format_field.disabled || false}
       id={format_field.name}
       name={format_field.name}
