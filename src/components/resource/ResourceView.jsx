@@ -8,7 +8,7 @@ import ResourceOne from "./ResourceOne";
 import ResourceMany from "./ResourceMany";
 import ResourceHeader from "./ResourceHeader";
 
-import { get, post, put, del } from "../../data/request";
+import { get, post, put, del, download } from "../../data/request";
 
 function ResourceView() {
   const navigate = useNavigate();
@@ -93,6 +93,19 @@ function ResourceView() {
     navigate(route_url);
   };
 
+  const onDownload = async (request_url, defaultFileName) => {
+    try {
+      const resolvedUrl = request_url.replace("{id}", params.id || "");
+      await download(
+        resolvedUrl,
+        session.api_key,
+        defaultFileName || "download",
+      );
+    } catch (err) {
+      setMessage(err.message);
+    }
+  };
+
   const onPost = async (request_url, route_url) => {
     try {
       const response = await post(request_url, session.api_key, data);
@@ -118,6 +131,12 @@ function ResourceView() {
   };
 
   const data_rows = data && Array.isArray(data) ? data : [];
+  const headerButtons = [
+    ...(format?.header?.buttons || []),
+    ...((format?.footer?.buttons || []).filter(
+      (button) => button.request_type === "download",
+    ) || []),
+  ];
 
   return (
     <main>
@@ -127,7 +146,12 @@ function ResourceView() {
         </div>
       ) : (
         <div className="container">
-          <ResourceHeader format={format} onNavigate={onNavigate} />
+          <ResourceHeader
+            format={format}
+            headerButtons={headerButtons}
+            onDownload={onDownload}
+            onNavigate={onNavigate}
+          />
           {format.filters && (
             <ResourceFilters
               filter_values={filters}

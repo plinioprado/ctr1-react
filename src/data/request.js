@@ -25,6 +25,63 @@ export async function del(path, api_key) {
   return result;
 }
 
+export async function download(path, api_key, defaultFileName = "download") {
+  const url = `${config.url_base_api}${path}`;
+  const response = await fetch(url, {
+    method: "GET",
+    cache: "no-store",
+    mode: "cors",
+    headers: {
+      Authorization: `Bearer ${api_key}`,
+    },
+  });
+
+  if (!response.ok) {
+    const responseBody = await response.text();
+    let message = "";
+
+    if (responseBody) {
+      try {
+        const bodyObj = JSON.parse(responseBody);
+        message = bodyObj.message?.replace("Error: ", "") || "";
+      } catch {
+        message = responseBody;
+      }
+    }
+
+    throw new Error(`Response error ${response.status}: ${message}`.trim());
+  }
+
+  const blob = await response.blob();
+  const blobUrl = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  const fileName = getDownloadFileName(response, defaultFileName);
+
+  link.href = blobUrl;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(blobUrl);
+}
+
+function getDownloadFileName(response, defaultFileName) {
+  const contentDisposition = response.headers.get("content-disposition") || "";
+  const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+
+  if (utf8Match?.[1]) {
+    return decodeURIComponent(utf8Match[1]);
+  }
+
+  const asciiMatch = contentDisposition.match(/filename="?([^\";]+)"?/i);
+
+  if (asciiMatch?.[1]) {
+    return asciiMatch[1];
+  }
+
+  return defaultFileName;
+}
+
 const doRequest = async (url, method, api_key, body) => {
   let options = {
     method: method,

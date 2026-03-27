@@ -1,7 +1,15 @@
 import ButtonDefault from "../button/ButtonDefault";
+import ButtonDownload from "../button/ButtonDownload";
 import ButtonDropdown from "../button/ButtonDropdown";
 
-function ResourceButtons({ buttons, onNavigate, onPost, onPut, onDelete }) {
+function ResourceButtons({
+  buttons,
+  onNavigate,
+  onPost,
+  onPut,
+  onDelete,
+  onDownload,
+}) {
   const onClick = (request_type, request_url, route_url) => {
     if (request_type === "post") {
       onPost(request_url, route_url);
@@ -9,6 +17,8 @@ function ResourceButtons({ buttons, onNavigate, onPost, onPut, onDelete }) {
       onPut(request_url, route_url);
     } else if (request_type === "delete") {
       onDelete(request_url, route_url);
+    } else if (request_type === "download") {
+      onDownload(request_url, route_url);
     } else {
       onNavigate(route_url);
     }
@@ -27,6 +37,15 @@ function ResourceButtons({ buttons, onNavigate, onPost, onPut, onDelete }) {
             request_url={button.request_url}
             route_url={button.route_url}
             route_param={button.route_param}
+          />
+        ) : button.request_type === "download" ? (
+          <ButtonDownload
+            disabled={button.disabled}
+            key={index}
+            label={button.label}
+            onClick={onDownload}
+            request_url={button.request_url}
+            route_url={button.route_url}
           />
         ) : (
           <ButtonDefault

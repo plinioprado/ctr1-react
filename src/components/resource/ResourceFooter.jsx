@@ -1,10 +1,15 @@
 import ResourceButtons from "./ResourceButtons";
 function ResourceFooter({ formatFooter, onNavigate, onPost, onPut, onDelete }) {
+  const footerButtons =
+    formatFooter?.buttons?.filter(
+      (button) => button.request_type !== "download",
+    ) || [];
+
   return (
     <div className="d-flex justify-content-end">
-      {formatFooter && formatFooter.buttons && (
+      {footerButtons.length > 0 && (
         <ResourceButtons
-          buttons={formatFooter.buttons}
+          buttons={footerButtons}
           onDelete={onDelete}
           onNavigate={onNavigate}
           onPost={onPost}
