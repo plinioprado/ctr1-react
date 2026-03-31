@@ -25,61 +25,32 @@ export async function del(path, api_key) {
   return result;
 }
 
-export async function download(path, api_key, defaultFileName = "download") {
+export async function download(path, api_key) {
   const url = `${config.url_base_api}${path}`;
-  const response = await fetch(url, {
-    method: "GET",
-    cache: "no-store",
-    mode: "cors",
-    headers: {
-      Authorization: `Bearer ${api_key}`,
-    },
-  });
+  const fileName = getFileName(url);
+  const result = await doRequestDownload(url, "GET", api_key);
+  const blob = await result.blob();
+  downloadFile(blob, fileName);
 
-  if (!response.ok) {
-    const responseBody = await response.text();
-    let message = "";
+  return "ok";
 
-    if (responseBody) {
-      try {
-        const bodyObj = JSON.parse(responseBody);
-        message = bodyObj.message?.replace("Error: ", "") || "";
-      } catch {
-        message = responseBody;
-      }
-    }
-
-    throw new Error(`Response error ${response.status}: ${message}`.trim());
+  function getFileName(url) {
+    const resource_path = url.split("?")[0].split("/");
+    const name = `${resource_path[resource_path.length - 3]}.${resource_path[resource_path.length - 1]}`;
+    return name;
   }
 
-  const blob = await response.blob();
-  const blobUrl = window.URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  const fileName = getDownloadFileName(response, defaultFileName);
+  function downloadFile(blob, fileName) {
+    const blobUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
 
-  link.href = blobUrl;
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.URL.revokeObjectURL(blobUrl);
-}
-
-function getDownloadFileName(response, defaultFileName) {
-  const contentDisposition = response.headers.get("content-disposition") || "";
-  const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
-
-  if (utf8Match?.[1]) {
-    return decodeURIComponent(utf8Match[1]);
+    link.href = blobUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(blobUrl);
   }
-
-  const asciiMatch = contentDisposition.match(/filename="?([^\";]+)"?/i);
-
-  if (asciiMatch?.[1]) {
-    return asciiMatch[1];
-  }
-
-  return defaultFileName;
 }
 
 const doRequest = async (url, method, api_key, body) => {
@@ -96,19 +67,42 @@ const doRequest = async (url, method, api_key, body) => {
 
   const response = await fetch(url, options);
 
-  if (response.status !== 200) {
-    const responseBody = await response.text();
-    const bodyObj = responseBody ? JSON.parse(responseBody) : {};
-    const message = bodyObj.message.replace("Error: ", "") || "";
-
-    if (!responseBody || responseBody === "{}") {
-      throw new Error(`Response error ${response.status}: ${message}`);
-    }
-
-    throw new Error(`Response error ${response.status}: ${message}`);
+  if (!response || response.status !== 200) {
+    await handleRequestError(response);
   }
 
   const json = await response.json();
 
   return json;
+};
+
+const doRequestDownload = async (url, method, api_key) => {
+  let options = {
+    method: method,
+    cache: "no-store",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${api_key}`,
+    },
+  };
+  const response = await fetch(url, options);
+
+  if (!response || response.status !== 200) {
+    await handleRequestError(response);
+  }
+
+  return response;
+};
+
+const handleRequestError = async (response) => {
+  const responseBody = await response.text();
+  const bodyObj = responseBody ? JSON.parse(responseBody) : {};
+  const message = bodyObj.message.replace("Error: ", "") || "";
+
+  if (!responseBody || responseBody === "{}") {
+    throw new Error(`Response error ${response.status}: ${message}`);
+  }
+
+  throw new Error(`Response error ${response.status}: ${message}`);
 };

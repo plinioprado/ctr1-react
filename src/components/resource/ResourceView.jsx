@@ -93,14 +93,10 @@ function ResourceView() {
     navigate(route_url);
   };
 
-  const onDownload = async (request_url, defaultFileName) => {
+  const onDownload = async (request_url) => {
     try {
-      const resolvedUrl = request_url.replace("{id}", params.id || "");
-      await download(
-        resolvedUrl,
-        session.api_key,
-        defaultFileName || "download",
-      );
+      const message = await download(request_url, session.api_key);
+      setMessage(message);
     } catch (err) {
       setMessage(err.message);
     }
@@ -147,9 +143,11 @@ function ResourceView() {
       ) : (
         <div className="container">
           <ResourceHeader
+            actions={{
+              download: onDownload,
+            }}
             format={format}
             headerButtons={headerButtons}
-            onDownload={onDownload}
             onNavigate={onNavigate}
           />
           {format.filters && (

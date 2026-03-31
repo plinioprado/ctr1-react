@@ -2,7 +2,6 @@ import ResourceManyRow from "./ResourceManyRow";
 import ResourceManyHeader from "./ResourceManyHeader";
 
 function ResourceMany({ data_rows, format_grid, format_events }) {
-  console.log(11);
   return (
     <div className="container-fluid grid">
       <ResourceManyHeader format_grid={format_grid} />
