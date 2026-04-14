@@ -2,11 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { SessionContext } from "../../SessionContext";
 
+import ResourceHeader2 from "./ResourceHeader2";
 import ResourceFilters from "./ResourceFilters";
-import ResourceFooter from "./ResourceFooter";
 import ResourceOne from "./ResourceOne";
 import ResourceMany from "./ResourceMany";
-import ResourceHeader from "./ResourceHeader";
+import ResourceFooter2 from "./ResourceFooter2";
+import ResourceModal from "./ResourceModal";
 
 import { get, post, put, del, download } from "../../data/request";
 
@@ -20,6 +21,7 @@ function ResourceView() {
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState({});
   const [format, setFormat] = useState(null);
+  const [modal, setModal] = useState({ h3: "Upload", open: false });
   const [reload, setReload] = useState(false);
 
   const getQueryString = () => {
@@ -79,6 +81,53 @@ function ResourceView() {
     });
   };
 
+  const onDownload = async (request_url) => {
+    try {
+      const message = await download(request_url, session.api_key);
+      setMessage(message);
+    } catch (err) {
+      setMessage(err.message);
+    }
+  };
+
+  const onReload = () => {
+    setReload(!reload);
+  };
+
+  // CRUD actions
+
+  const onGet = async (request_url, route_url) => {
+    try {
+      if (request_url) {
+        const response = await get(request_url, session.api_key);
+        setData(response.data);
+      }
+      if (route_url) navigate(route_url);
+    } catch (err) {
+      setMessage(err.message);
+    }
+  };
+
+  const onPost = async (request_url, route_url) => {
+    try {
+      const response = await post(request_url, session.api_key, data);
+      setData(response.data);
+      if (route_url) navigate(route_url);
+    } catch (err) {
+      setMessage(err.message);
+    }
+  };
+
+  const onPut = async (request_url, route_url) => {
+    try {
+      const response = await put(request_url, session.api_key, data);
+      setData(response.data);
+      if (route_url) navigate(route_url);
+    } catch (err) {
+      setMessage(err.message);
+    }
+  };
+
   const onDelete = async (request_url, route_url) => {
     try {
       const url_delete = request_url.replace("{id}", params.id);
@@ -89,50 +138,45 @@ function ResourceView() {
     }
   };
 
-  const onNavigate = (route_url) => {
-    navigate(route_url);
-  };
+  // Modal actions
 
-  const onDownload = async (request_url) => {
-    try {
-      const message = await download(request_url, session.api_key);
-      setMessage(message);
-    } catch (err) {
-      setMessage(err.message);
+  const modalOpen = () => {
+    if (modal) {
+      setModal({
+        ...modal,
+        open: true,
+      });
     }
   };
 
-  const onPost = async (request_url, route_url) => {
-    try {
-      const response = await post(request_url, session.api_key, data);
-      setData(response.data);
-      navigate(route_url);
-    } catch (err) {
-      setMessage(err.message);
+  const modalClose = () => {
+    if (modal) {
+      setModal({
+        ...modal,
+        open: false,
+      });
     }
   };
 
-  const onPut = async (request_url, route_url) => {
-    try {
-      const response = await put(request_url, session.api_key, data);
-      setData(response.data);
-      navigate(route_url);
-    } catch (err) {
-      setMessage(err.message);
-    }
+  const modalSubmit = () => {
+    modalClose();
   };
 
-  const onReload = () => {
-    setReload(!reload);
+  // Actions
+
+  const actions = {
+    get: onGet,
+    post: onPost,
+    put: onPut,
+    delete: onDelete,
+    download: onDownload,
+    modalOpen: modalOpen,
   };
 
-  const data_rows = data && Array.isArray(data) ? data : [];
-  const headerButtons = [
-    ...(format?.header?.buttons || []),
-    ...((format?.footer?.buttons || []).filter(
-      (button) => button.request_type === "download",
-    ) || []),
-  ];
+  const modalActions = {
+    close: modalClose,
+    submit: modalSubmit,
+  };
 
   return (
     <main>
@@ -142,14 +186,13 @@ function ResourceView() {
         </div>
       ) : (
         <div className="container">
-          <ResourceHeader
-            actions={{
-              download: onDownload,
-            }}
-            format={format}
-            headerButtons={headerButtons}
-            onNavigate={onNavigate}
-          />
+          {format.header && (
+            <ResourceHeader2
+              actions={actions}
+              format_h2={format.h2}
+              format_header={format.header}
+            />
+          )}
           {format.filters && (
             <ResourceFilters
               filter_values={filters}
@@ -169,7 +212,7 @@ function ResourceView() {
           )}
           {format.many && (
             <ResourceMany
-              data_rows={data_rows}
+              data_rows={data && Array.isArray(data) ? data : []}
               format_grid={format.many}
               format_events={
                 format.events
@@ -179,17 +222,12 @@ function ResourceView() {
             />
           )}
           {format.footer && (
-            <ResourceFooter
-              formatFooter={format.footer}
-              onDelete={onDelete}
-              onNavigate={onNavigate}
-              onPost={onPost}
-              onPut={onPut}
-            />
+            <ResourceFooter2 actions={actions} format_header={format.footer} />
           )}
         </div>
       )}
       <div className="text-error">{message}</div>
+      <ResourceModal modal={modal} modalActions={modalActions} />
     </main>
   );
 }
