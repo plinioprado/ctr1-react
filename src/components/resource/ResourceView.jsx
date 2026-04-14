@@ -150,12 +150,7 @@ function ResourceView() {
   };
 
   const modalClose = () => {
-    if (modal) {
-      setModal({
-        ...modal,
-        open: false,
-      });
-    }
+    onGet("/api/ledger/acc", "/resource/ledger/acc");
   };
 
   const modalSubmit = () => {
@@ -227,7 +222,9 @@ function ResourceView() {
         </div>
       )}
       <div className="text-error">{message}</div>
-      <ResourceModal modal={modal} modalActions={modalActions} />
+      {format && format.modal && (
+        <ResourceModal format={format.modal} actions={modalActions} />
+      )}
     </main>
   );
 }
