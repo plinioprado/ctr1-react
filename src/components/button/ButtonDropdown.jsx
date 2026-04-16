@@ -1,37 +1,25 @@
-function ButtonDropdown({
-  disabled,
-  label,
-  onClick,
-  options,
-  request_type,
-  request_url,
-  route_param,
-  route_url,
-}) {
+function ButtonDropdown({ actions, format_button }) {
   return (
-    <div className="dropdown">
+    <div className="dropdown" key={format_button.name}>
       <button
         aria-expanded="false"
         className="btn btn-primary dropdown-toggle"
         data-bs-toggle="dropdown"
-        disabled={disabled}
+        disabled={format_button.disabled}
         type="button"
       >
-        {label}
+        {format_button.label}
       </button>
       <ul className="dropdown-menu">
-        {options.map(({ value, label }, idx) => (
+        {format_button.options.map(({ value, label }, idx) => (
           <li key={idx}>
             <a
               className="dropdown-item"
               href=""
-              onClick={() =>
-                onClick(
-                  request_type,
-                  request_url,
-                  `${route_url}?${route_param}=${value}`,
-                )
-              }
+              onClick={(e) => {
+                e.preventDefault();
+                actions[format_button.action](value);
+              }}
             >
               {label.replace("_", " ")}
             </a>

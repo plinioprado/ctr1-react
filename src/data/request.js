@@ -26,18 +26,24 @@ export async function del(path, api_key) {
 }
 
 export async function download(path, api_key) {
+  console.log(1);
   const url = `${config.url_base_api}${path}`;
-  const fileName = getFileName(url);
   const result = await doRequestDownload(url, "GET", api_key);
+  console.log(2, result);
+  const fileName = getFileNameFromHeader(result);
   const blob = await result.blob();
   downloadFile(blob, fileName);
 
   return "ok";
 
-  function getFileName(url) {
-    const resource_path = url.split("?")[0].split("/");
-    const name = `${resource_path[resource_path.length - 3]}.${resource_path[resource_path.length - 1]}`;
-    return name;
+  function getFileNameFromHeader(response) {
+    console.log(response.headers);
+    const contentDisposition = response.headers.get("Content-Disposition");
+    if (contentDisposition) {
+      const match = contentDisposition.match(/filename="?([^"]+)"?/);
+      return match ? match[1] : null;
+    }
+    return null;
   }
 
   function downloadFile(blob, fileName) {

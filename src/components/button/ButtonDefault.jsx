@@ -1,19 +1,20 @@
-function ButtonDefault({
-  disabled,
-  label,
-  onClick,
-  request_type,
-  request_url,
-}) {
+function ButtonDefault({ actions, format_button }) {
   return (
     <button
       className="btn btn-primary"
       type="button"
-      onClick={() => onClick(request_type, request_url)}
-      disabled={disabled}
+      disabled={format_button.disabled}
+      onClick={(e) => {
+        e.preventDefault();
+        actions[format_button.request_type](
+          format_button.request_url,
+          format_button.route_url,
+        );
+      }}
     >
-      {label}
+      {format_button.label}
     </button>
   );
 }
+
 export default ButtonDefault;

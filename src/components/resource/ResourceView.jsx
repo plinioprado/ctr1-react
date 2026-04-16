@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { SessionContext } from "../../SessionContext";
 
-import ResourceHeader2 from "./ResourceHeader2";
+import ResourceHeader from "./ResourceHeader";
 import ResourceFilters from "./ResourceFilters";
 import ResourceOne from "./ResourceOne";
 import ResourceMany from "./ResourceMany";
-import ResourceFooter2 from "./ResourceFooter2";
+import ResourceFooter from "./ResourceFooter";
 import ResourceModal from "./ResourceModal";
 
 import { get, post, put, del, download } from "../../data/request";
@@ -153,7 +153,8 @@ function ResourceView() {
     onGet("/api/ledger/acc", "/resource/ledger/acc");
   };
 
-  const modalSubmit = () => {
+  const onModalPost = () => {
+    console.log("will post");
     modalClose();
   };
 
@@ -170,7 +171,7 @@ function ResourceView() {
 
   const modalActions = {
     close: modalClose,
-    submit: modalSubmit,
+    post: onModalPost,
   };
 
   return (
@@ -182,7 +183,7 @@ function ResourceView() {
       ) : (
         <div className="container">
           {format.header && (
-            <ResourceHeader2
+            <ResourceHeader
               actions={actions}
               format_h2={format.h2}
               format_header={format.header}
@@ -217,13 +218,13 @@ function ResourceView() {
             />
           )}
           {format.footer && (
-            <ResourceFooter2 actions={actions} format_header={format.footer} />
+            <ResourceFooter actions={actions} format_footer={format.footer} />
           )}
         </div>
       )}
       <div className="text-error">{message}</div>
       {format && format.modal && (
-        <ResourceModal format={format.modal} actions={modalActions} />
+        <ResourceModal format_modal={format.modal} actions={modalActions} />
       )}
     </main>
   );
